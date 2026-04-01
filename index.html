@@ -1,32 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <nav>
-      <h1>My Portfolio</h1>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
-  <main>
-    <section class="hero">
-      <h2>Welcome to My Portfolio</h2>
-      <p>Showcasing my work and ideas</p>
-      <img src="https://via.placeholder.com/600x300" alt="Portfolio preview">
-      <button onclick="window.location.href='about.html'">View My Work</button>
-    </section>
-  </main>
-  <footer>
-    <p>&copy; 2025 My Portfolio</p>
-  </footer>
-</body>
-</html>
+export default function PortfolioSite() {
+                  </span>
+                ))}
+              </div>
+              <button className="mt-6 rounded-2xl border border-slate-700 px-4 py-2 text-sm font-medium text-slate-200 hover:border-slate-500">
+                Add PDF / Details
+              </button>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="credentials" className="mx-auto max-w-6xl px-6 py-4">
+        <div className="rounded-3xl border border-slate-800 bg-slate-900 p-8 md:p-10">
+          <p className="text-sm font-semibold uppercase tracking-[0.25em] text-cyan-400">
+            Credentials
+          </p>
+          <h3 className="mt-2 text-3xl font-bold">Education and Certifications</h3>
+          <div className="mt-8 grid gap-8 md:grid-cols-2">
+            <div>
+              <h4 className="text-lg font-semibold">Education</h4>
+              <ul className="mt-4 space-y-3 text-slate-300">
+                <li>Master of Information Technology Management</li>
+                <li>Bachelor’s in Information Technology</li>
+                <li>Graduate Certificate in Cyber Security</li>
+                <li>Undergraduate Certificate in Cyber Security</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-lg font-semibold">Selected Certifications</h4>
+              <ul className="mt-4 grid gap-3 text-slate-300">
+                {certs.map((cert) => (
+                  <li key={cert} className="rounded-2xl bg-slate-800/70 px-4 py-3">
+                    {cert}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" className="mx-auto max-w-6xl px-6 py-16">
+        <div className="rounded-3xl border border-slate-800 bg-gradient-to-br from-slate-900 to-slate-950 p-8 md:p-10">
+          <h3 className="text-3xl font-bold">Contact</h3>
+          <p className="mt-4 max-w-2xl leading-8 text-slate-300">
+            Use this section for your professional email, LinkedIn profile, GitHub profile,
+            and downloadable resume. You can also add links to project files and portfolio
+            documents here.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-4">
+            <div className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-200">
+              johnwatkins35@gmail.com
+            </div>
+            <div className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-200">
+              LinkedIn
+            </div>
+            <div className="rounded-2xl border border-slate-700 px-5 py-3 text-sm text-slate-200">
+              GitHub
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
