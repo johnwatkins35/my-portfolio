@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flyber analysis · John Watkins</title>
+  <meta name="description" content="Flyber launch analysis: PostgreSQL, Python, and Tableau Public.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="index.html">John Watkins</a>
+      <ul>
+        <li><a href="index.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">Data product coursework</p>
+      <h1>Flyber MVP launch analysis</h1>
+      <p class="lede">
+        Course project for a fictional eVTOL air-taxi launch in Manhattan.
+        I loaded NYC taxi rides and a 500-person survey into local Docker
+        PostgreSQL, wrote SQL, charted results in Python, and published the
+        workbook on Tableau Public. This is querying and analysis, not
+        production database administration.
+      </p>
+      <div class="actions">
+        <a class="btn" href="https://public.tableau.com/app/profile/john.watkins7081/viz/Flyber_Launch_Strategy/Doyoucurrentlyusetaxis">Open Tableau workbook</a>
+        <a class="btn btn-secondary" href="flyber/flyber_queries.sql">Sample SQL</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What is in the lab</h2>
+      <ul class="plain">
+        <li>Local PostgreSQL on Docker (port 5433) with taxi rides and survey tables</li>
+        <li>SQL for volume, time-of-day, passenger counts, willingness to pay, and zip-level interest</li>
+        <li>Python (pandas, matplotlib) charts for the midterm deck</li>
+        <li>Tableau Public sheets for taxi use, rideshare, income, seasonality, and pickup/drop-off work</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 John Watkins</p>
+  </footer>
+</body>
+</html>

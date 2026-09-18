@@ -1,0 +1,15 @@
+services:
+  sysdesk:
+    build: .
+    image: sysdesk:local
+    ports:
+      - "8088:80"
+    volumes:
+      - ./index.html:/usr/share/nginx/html/index.html:ro
+      - ./app.js:/usr/share/nginx/html/app.js:ro
+      - ./data.js:/usr/share/nginx/html/data.js:ro
+      - ./labs.js:/usr/share/nginx/html/labs.js:ro
+      - ./styles.css:/usr/share/nginx/html/styles.css:ro
+      - ./export-docx.js:/usr/share/nginx/html/export-docx.js:ro
+      - ./favicon.svg:/usr/share/nginx/html/favicon.svg:ro
+    restart: unless-stopped

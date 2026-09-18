@@ -1,0 +1,240 @@
+SYSDESK — ticket help (step by step)
+Simulated lab. Not a real job. Open this beside the queue if you get stuck.
+
+HOW EVERY TICKET WORKS
+1. Open the row (click it).
+2. If it says Unclaimed — click Claim ticket (MSP / client tickets).
+3. Confirm identity (match name, SAM, host, client).
+4. Do the required work (Directory, Network, Remote, Shell, or the desk console).
+5. Write 40+ characters of notes (person, SAM, host, client, what you checked, exact action, what you refused).
+6. Resolve — or Escalate if the ticket says it is out of scope.
+7. Optional: Export write-up.
+
+SAM = short Windows login (jlee, pnair, mchenrs). Not the email. Not just the first name.
+
+A GOOD NOTE (copy this shape)
+Jordan Lee (jlee) on NW-WS-1042 at Northwind could not sign in. I confirmed identity in Directory, then unlocked jlee. I did not escalate a simple lockout.
+
+
+======== HELP DESK · NORTHWIND ========
+
+INC-2401  Jordan Lee lockout
+  Who: Jordan Lee · SAM jlee · host NW-WS-1042 · Northwind · voice
+  Steps:
+    1. Confirm identity.
+    2. Directory → Unlock on jlee.
+    3. Notes. Resolve.
+  Do not: escalate. Do not enable anyone else.
+
+INC-2402  Priya password expired
+  Who: Priya Nair · pnair · NW-WS-1180 · Northwind · chat
+  Steps:
+    1. Confirm identity.
+    2. Directory → Reset pwd on pnair.
+    3. Read the temp password on CHAT. Do not email it.
+    4. Notes. Resolve.
+
+INC-2403  Chris cannot map warehouse share
+  Who: Chris Dalton · cdalt · NW-WS-2218 · Northwind · email
+  Steps:
+    1. Confirm identity.
+    2. Network → select NW-WS-2218 → Set DNS to DC (10.20.0.11).
+    3. Directory → Add group VPN-Users on cdalt.
+    4. Notes. Resolve.
+
+INC-2404  Hannah printer / spooler
+  Who: Hannah Brooks · hbrooks · NW-WS-0881 · Northwind · chat
+  Steps:
+    1. Confirm identity.
+    2. Remote → NW-WS-0881 → Connect → Start Print Spooler.
+    3. Notes. Resolve.
+
+INC-2405  Elena contractor rehire (VIP Riley)
+  Who: Riley Cho · rcho · NW-LT-0007 · asking for Elena Voss (evoss)
+  Steps:
+    1. Confirm identity (Riley, the caller).
+    2. Do NOT enable Elena in Directory. She is a disabled contractor.
+    3. Escalate to Tier-2 / HR.
+    4. Notes: you refused to re-enable; sent to HR.
+  Do not: click Enable on evoss.
+
+INC-2406  Kenji VPN hang
+  Who: Kenji Mori · kmori · NW-WS-3304 · Northwind · email
+  Steps:
+    1. Confirm identity.
+    2. Remote → NW-WS-3304 → Connect → Clear stale VPN profile.
+    3. Notes. Resolve.
+
+INC-2398  Kenji wants local / Domain Admin
+  Who: Kenji Mori · kmori · NW-WS-3304
+  Steps:
+    1. Confirm identity.
+    2. Escalate. Do not grant admin.
+    3. Notes.
+
+
+======== MSP · OTHER CLIENTS ========
+
+INC-2501  Harbor Dental — browsers dead
+  Who: Maya Chen · mchen · HD-WS-14 · Harbor Dental · voice
+  Steps:
+    1. Claim. Confirm identity (Harbor Maya, SAM mchen — not Riverton).
+    2. Remote → HD-WS-14 → Check out Harbor jump cred → Connect → ipconfig /renew.
+    3. Notes. Resolve.
+  Do not: only reboot because she asked.
+
+INC-2502  Riverton — teacher Maya Chen locked
+  Who: Maya Chen · mchenrs · RS-LT-31 · Riverton Schools · email
+  Steps:
+    1. Claim. Confirm identity.
+    2. Directory → filter Riverton → Unlock mchenrs.
+    3. Notes. Resolve.
+  Do not: unlock Harbor Maya (mchen).
+
+INC-2503  Maple CU — Defender off
+  Who: Asha Patel · apatel · MC-WS-22 · Maple CU · chat
+  Steps:
+    1. Claim. Confirm identity.
+    2. Remote → MC-WS-22 → Check out Maple jump cred → Connect → Start Defender.
+    3. Notes. Resolve.
+  Do not: tell her to install a random AV.
+
+INC-2504  Oak & Pine — Blair wants Domain Admin
+  Who: Blair Quinn · bquinn · OL-WS-03 · Oak & Pine · voice
+  Steps:
+    1. Claim. Confirm identity.
+    2. Escalate. Do not add Domain Admins.
+    3. Notes.
+
+INC-2505  Peak — Santiago Ortiz locked
+  Who: Santiago Ortiz · sortiz · PO-WS-08 · Peak · chat
+  Steps:
+    1. Claim. Confirm identity.
+    2. Directory → Peak → Unlock sortiz.
+    3. Notes. Resolve.
+  Do not: unlock Sam Ortiz at Oak & Pine (sortizo).
+
+INC-2510  Security wants lockout log first
+  Who: Jordan Lee · jlee · NW-WS-1042 · Northwind · chat
+  Steps:
+    1. Claim. Confirm identity.
+    2. Shell → PowerShell → Get-WinEvent lockout   (or type lockout / 4740).
+    3. Directory Unlock jlee  — or  Unlock-ADAccount -Identity jlee  in Shell.
+    4. Paste the log snippet in notes. Resolve.
+
+INC-2520  Trust relationship failed
+  Who: Dana Ruiz · druiz · NW-WS-1555 · Northwind · voice
+  Steps:
+    1. Claim. Confirm identity (Dana, druiz, NW-WS-1555).
+    2. Directory → computers → Reset computer account on NW-WS-1555.
+    3. Then Rejoin domain on NW-WS-1555. (Unlocking druiz does not fix this.)
+    4. Notes. Resolve.
+  Do not: skip the reset and only rejoin.
+
+INC-2521  NAC / 802.1X quarantine
+  Who: Pat Okonkwo · pokonk · NW-LT-1904 · Northwind · chat
+  Steps:
+    1. Claim. Confirm identity.
+    2. Directory (or Network) → Release NAC on NW-LT-1904.
+    3. Notes. Resolve.
+  Do not: recable-only. This is a compliance quarantine, not ransomware.
+
+INC-2522  Kenji wants the ransom box back on the LAN
+  Who: Kenji Mori · kmori · NW-WS-3304 · Northwind · voice
+  Steps:
+    1. Claim. Confirm identity.
+    2. Escalate. Do NOT Release NAC on NW-WS-3304.
+    3. Notes: SOC isolate / ransom — host stays off the network.
+  Do not: un-isolate or release quarantine on the ransom box.
+
+
+======== CAMPUS FLOORS ========
+Open Campus, then the desk. Same: identity → console → notes → Resolve or Escalate.
+
+CLOUD
+  CLD-1001  web-prod down
+    Confirm Priya (pnair). Cloud console → Start web-prod. Notes. Resolve.
+  CLD-1002  leaked key
+    Confirm Kenji (kmori). Disable AKIA-OLD1. Do not paste a new secret in chat. Notes. Resolve.
+  CLD-1003  SSH open
+    Confirm Luis (lortega). Lock SSH on sg-web (22 → 10.20.0.0/16). Notes. Resolve.
+
+ACCESS
+  ACS-2001  Chris dock deny
+    Confirm Chris (cdalt). Grant badge B-4412 door WH-DOCK. Notes. Resolve.
+  ACS-2002  Exec controller offline
+    Confirm Riley (rcho). Reboot CTRL-07. Notes. Resolve.
+  ACS-2003  Elena badge after term
+    Confirm Hannah (hbrooks). Disable badge B-0771. Do not re-enable her AD account. Notes. Resolve.
+
+SOC
+  SOC-3001  ransom on Kenji PC
+    Confirm. Isolate NW-WS-3304. Notes. Resolve.
+  SOC-3002  jlee failed logons
+    Confirm. False positive (same as help-desk lockout). Do NOT isolate NW-WS-1042. Notes. Resolve.
+  SOC-3003  Riley macro zip
+    Confirm Riley (rcho). Isolate NW-LT-0007. Notes. Resolve.
+
+NOC
+  NOC-4001  warehouse uplink down
+    Confirm Chris (cdalt). Bounce CIR-WH. Notes. Resolve.
+  NOC-4002  ExpressRoute slow
+    Confirm Priya (pnair). Escalate. Do NOT bounce CIR-AZ. Notes.
+
+DBA
+  DBA-5001  Orders blocked
+    Confirm Priya. Kill SPID 88 (button). Do not restart SQL. Notes. Resolve.
+  DBA-5002  Nightly ETL failed
+    Confirm Chris. Rerun JOB-NIGHT. Notes. Resolve.
+  DBA-5003  They want an index
+    Confirm Kenji. Escalate. Do not add an index. Notes.
+  DBA-5004  Prove blocker with SQL
+    Confirm Priya. Shell or DBA SQL box → sp_who2 (or SELECT blocking). Then KILL 88. Notes. Resolve.
+
+CHANGE
+  CHG-6001  Standard SG /32
+    Confirm Luis. Approve (has backout). Notes. Resolve.
+  CHG-6002  DC patch no backout
+    Confirm Kenji. Reject. Notes. Resolve (as reject — do not approve).
+
+STIG (lab controls — not a live DISA scan)
+  STG-7001  Telnet on file server
+    Confirm Luis. STIG console → Remediate V-LAB-TELNET. Notes. Resolve.
+  STG-7002  Guest in Administrators
+    Confirm Kenji. Remediate V-LAB-ADMIN. Notes. Resolve.
+  STG-7003  Password never expires
+    Confirm Luis. Remediate V-LAB-PEXPIRE. Notes. Resolve.
+  STG-7004  STIG the DC this afternoon
+    Confirm Kenji. Escalate. Do not click remediate on the DC.
+
+CAPTURE (simulated packets — like Wireshark, not a live tap)
+  Filter box: dns, http, dhcp, 10.20.0.11
+  Click "This is the finding" on the right frames.
+  CAP-8001  Warehouse share
+    Confirm Chris. Mark the DNS-to-8.8.8.8 frames. Notes. Resolve.
+  CAP-8002  HR login in the clear
+    Confirm Hannah. Mark HTTP Basic. Escalate (app team). Notes.
+  CAP-8003  SYN sweep at the DC
+    Confirm. Mark the SYN frames. Isolate happens when you mark the scan (or SOC Isolate NW-WS-3304). Notes. Resolve.
+  CAP-8004  Clinic Discover, no Offer
+    Confirm Harbor Maya (mchen). Mark DHCP. Do not bounce HQ. Notes. Resolve.
+
+
+======== SHELL CHEAT (PowerShell / SQL) ========
+  Get-ADUser jlee
+  Unlock-ADAccount -Identity jlee
+  Get-WinEvent lockout
+  Get-ADUser *Chen*
+  Reset-ComputerMachinePassword   (then Rejoin domain in Directory)
+  Add-Computer / rejoin
+  sp_who2
+  SELECT blocking
+  KILL 88
+  SELECT TOP 5 FROM Orders
+  CREATE INDEX / DROP / BACKUP → blocked. Escalate.
+
+
+======== IF CLOSE STAYS UNVERIFIED ========
+  Missing identity, missing a required action, notes under 40 characters,
+  or you Resolved an escalate-only ticket (or Escalated a simple lockout).
+  Reset lab starts the same tickets over. They are not random.

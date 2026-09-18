@@ -1,73 +1,222 @@
+:root {
+  --bg: #0b1220;
+  --panel: #121a2b;
+  --panel-2: #182338;
+  --line: #2a3a55;
+  --text: #e8eef8;
+  --muted: #9aa8c0;
+  --cyan: #5eead4;
+  --gold: #e8c547;
+  --navy: #1b365d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background: #f4f4f4;
-  color: #333;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+a {
+  color: var(--cyan);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 header {
-  background: #222;
-  color: white;
-  padding: 1rem;
+  background: #080d18;
+  border-bottom: 1px solid var(--line);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+}
+
+.brand {
+  color: var(--text);
+  font-weight: 700;
+  letter-spacing: 0.02em;
 }
 
 nav ul {
   list-style: none;
   display: flex;
-  gap: 1rem;
+  gap: 1.25rem;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
 }
 
-nav ul li a {
-  color: white;
+nav ul a {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+nav ul a:hover,
+nav ul a[aria-current="page"] {
+  color: var(--text);
   text-decoration: none;
 }
 
 main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+.hero,
+.card,
+.section {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
   padding: 2rem;
+  margin-bottom: 1.5rem;
 }
 
-.hero, .about, .contact {
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  margin: 1rem auto;
-  max-width: 800px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+.kicker {
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem;
 }
 
-button {
-  background: #222;
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  cursor: pointer;
-  border-radius: 4px;
-  margin-top: 1rem;
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin-top: 0;
 }
 
-form {
+h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin-bottom: 0.75rem;
+}
+
+.lede {
+  color: var(--muted);
+  font-size: 1.1rem;
+  max-width: 42rem;
+}
+
+.actions {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--cyan);
+  color: #042f2e;
+  font-weight: 700;
+  padding: 0.7rem 1.1rem;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.btn:hover {
+  text-decoration: none;
+  filter: brightness(1.05);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 1rem;
 }
 
-input, textarea {
-  padding: 0.75rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.project h3 {
+  margin-bottom: 0.4rem;
+}
+
+.meta {
+  color: var(--gold);
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+ul.plain {
+  margin: 0.5rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.chip {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.85rem;
+  color: var(--muted);
 }
 
 footer {
   text-align: center;
-  padding: 1rem;
-  background: #222;
-  color: white;
-  margin-top: 2rem;
+  padding: 1.5rem;
+  color: var(--muted);
+  border-top: 1px solid var(--line);
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.contact-links a {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.8rem 1rem;
+  color: var(--text);
+}
+
+.contact-links a:hover {
+  border-color: var(--cyan);
+  text-decoration: none;
+}
+
+@media (max-width: 640px) {
+  nav {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }

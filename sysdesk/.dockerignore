@@ -1,0 +1,10 @@
+.git
+.gitignore
+*.md
+*.py
+*.txt
+*.docx
+serve.sh
+Dockerfile
+docker-compose.yml
+.dockerignore
