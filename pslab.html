@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PSLab · John Watkins</title>
+  <meta name="description" content="PSLab is a throwaway PowerShell 7 sandbox in Docker. Practice stays in one folder.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="index.html">John Watkins</a>
+      <ul>
+        <li><a href="index.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">PowerShell practice lab</p>
+      <h1>PSLab</h1>
+      <p class="lede">
+        A throwaway PowerShell 7 shell in Docker. The container is deleted
+        when you exit. The only folder on the PC it can change is
+        <code>work</code>. Windows services, local users, and Active Directory
+        stay on a Windows VM you can snapshot. This is a practice box, not
+        production automation.
+      </p>
+      <div class="actions">
+        <a class="btn" href="pslab/README.md">Read the setup</a>
+        <a class="btn btn-secondary" href="pslab/sandbox/samples/command-cheatsheet.txt">Command cheatsheet</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What is in the lab</h2>
+      <ul class="plain">
+        <li><a href="pslab/start_pslab.ps1">Launcher</a> that starts Docker if it is down, then opens the sandbox</li>
+        <li>Caps of 2 CPUs and 1 GB RAM, with no admin rights on the host</li>
+        <li>Sample CSV files for services, users, and groups, plus short scripts</li>
+        <li><a href="pslab/reset_work.ps1">Reset</a> that copies the practice folder aside, then restores the samples</li>
+        <li><a href="pslab/ad-lab/SETUP.txt">Active Directory notes</a> for a <code>lab.local</code> domain controller on a VM, not on this PC</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 John Watkins</p>
+  </footer>
+</body>
+</html>

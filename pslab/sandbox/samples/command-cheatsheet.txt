@@ -1,0 +1,116 @@
+PSLab command cheatsheet
+The prompt PS /work> is printed by the sandbox. Type only the command, then press Enter.
+
+Move around
+  Set-Location /work
+    Goes to the practice folder. The prompt becomes PS /work>.
+  Set-Location ./tiny/01_hello
+    Goes into the hello exercise. ./ means "starting from the folder you are in now."
+    If you are already in that folder, do not run this again.
+
+See what is in a folder
+  Get-ChildItem
+    Lists files and folders in the current folder.
+  Get-ChildItem ./practice
+    Lists what is inside the practice folder.
+  Get-ChildItem *.csv
+    Lists only the CSV files.
+  Get-ChildItem -Force
+    Also shows hidden names. A hidden name starts with a dot, such as .day1-note.txt.
+    The empty folder .practice is not the hidden note.
+
+Read a text file
+  Get-Content ./practice/note.txt
+    Prints the text inside that file.
+  Get-Content ./some-file.csv -TotalCount 1
+    Prints only the first line. On a CSV, that line is the column names.
+
+Make a folder and a file
+  New-Item -ItemType Directory -Path ./practice
+    Creates a folder named practice. The ./ is required.
+    .practice without the slash is a different, hidden name.
+  Set-Content -Path ./practice/note.txt -Value 'hello'
+    Creates note.txt and writes the word hello into it.
+    The command is Set-Content. Set-Conent is a typo and will fail.
+  Add-Content ./practice/colors.txt 'G is for green.'
+    Adds one more line at the end of a file.
+
+Delete
+  Remove-Item -Recurse -Force ./practice
+    Deletes the practice folder and everything inside it.
+    It does not delete the rest of /work.
+
+Copy
+  ./copy-work.ps1
+    Copies the whole practice folder to a dated folder on this PC:
+    C:\Users\johnw\Projects\pslab\work-copies
+    Your current files stay in place.
+  reset_work.cmd
+    Run this on the PC, not inside the sandbox. It saves a copy, then puts the sample files back.
+    The tiny exercises stay.
+
+Read-only and writable
+  (Get-Item ./note.txt).IsReadOnly = $true
+    Makes the file view-only. Get-Content still works. Changing it is blocked.
+  (Get-Item ./note.txt).IsReadOnly = $false
+    Makes the file writable again.
+  (Get-Item ./note.txt).IsReadOnly
+    True means view-only. False means you can change it.
+
+Read a table
+  Import-Csv ./patient_outcomes.csv | Format-Table
+    Reads the CSV and prints it as a table.
+    The | sends the rows from the command on the left into the command on the right.
+
+Pick a row by position
+  (Import-Csv ./patient_outcomes.csv)[0]
+    The first patient. Counting starts at 0, not 1.
+    [1] is the second patient. [2] is the third patient.
+    The parentheses are required. Without them, PowerShell treats the whole line as a file name.
+  (Import-Csv ./patient_outcomes.csv)[0].RecoveryScore
+    One column from that row.
+
+Pick a row by a value
+  Import-Csv ./patient_outcomes.csv | Where-Object PatientID -eq '2' | Format-Table
+    Finds the row whose PatientID is 2, no matter where it sits in the file.
+  (Import-Csv ./patient_outcomes.csv | Where-Object PatientID -eq '2').RecoveryScore
+    Only that patient's score.
+
+Filter
+  Import-Csv ./patient_outcomes.csv | Where-Object Complication -eq 'Yes' | Format-Table
+    Keeps rows where Complication is Yes.
+  Import-Csv ./fraud_detection_data.csv | Where-Object IsFraud -eq '1'
+    Keeps rows where IsFraud is 1.
+
+Count
+  Import-Csv ./practice/yes.csv | Measure-Object
+    Count is how many rows are in the file.
+  Import-Csv ./patient_outcomes.csv | Group-Object Complication | Select-Object Name, Count
+    Counts how many rows are Yes and how many are No.
+
+Sort and take the top row
+  Import-Csv ./patient_outcomes.csv | Sort-Object { [double]$_.RecoveryScore } -Descending | Select-Object -First 1
+    Sorts RecoveryScore as a number, highest first, and keeps one row.
+    $_ means "the current row." -Descending means largest first.
+    Use the same pattern for Amount in the fraud file.
+
+Save a filtered table
+  Import-Csv ./patient_outcomes.csv | Where-Object Complication -eq 'Yes' | Export-Csv ./practice/yes.csv -NoTypeInformation
+    Writes the matching rows to a new CSV. -NoTypeInformation keeps the file a normal CSV.
+
+Change one line of text
+  (Get-Content ./practice/sayings.txt) -replace 'old words', 'new words' | Set-Content ./practice/sayings.txt
+    Replaces the old phrase and saves the file.
+
+Run a script
+  ./hello.ps1
+    Runs the script in the current folder.
+  ./hello.ps1 -name Universe
+    Runs it again and passes the name Universe.
+  ./AllTest.ps1
+    In ./tiny/01_hello, copies each solution file over hello.ps1 and runs the tests.
+    Pester 5.5.0 must be the version that loads. Close the sandbox and open it again if a newer Pester was loaded in that window.
+
+Leave
+  exit
+    Closes the sandbox. The container is deleted. Files in /work stay on the PC.

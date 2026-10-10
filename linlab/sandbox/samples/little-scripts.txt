@@ -1,0 +1,19 @@
+A little exercise is a .sh file in this folder.
+
+Run the one that is already here:
+  bash ./hello.sh
+  bash ./hello.sh Universe
+
+Make the next one. From this window:
+  nano ./goodbye.sh
+
+Put these two lines in it:
+  #!/bin/bash
+  echo Goodbye
+
+Save and leave nano: Ctrl+O, Enter, Ctrl+X
+
+Run it:
+  bash ./goodbye.sh
+
+You do not have to close LinLab after a save.

@@ -1,0 +1,6 @@
+Name,Status,StartType
+App,Running,Automatic
+Database,Stopped,Manual
+Web,Running,Automatic
+Backup,Stopped,Disabled
+Monitor,Running,Automatic

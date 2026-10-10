@@ -1,0 +1,23 @@
+Sample Active Directory for practice. Use the Proxmox Windows VM, not PSLab.
+
+1. In Proxmox, snapshot the Windows Server VM before you start.
+2. On that VM, open PowerShell as Administrator and run:
+
+Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+Install-ADDSForest -DomainName lab.local -InstallDns
+
+3. The server reboots. Sign back in.
+4. Copy New-SampleDomain.ps1 onto the VM.
+5. Run:
+
+powershell -ExecutionPolicy Bypass -File .\New-SampleDomain.ps1
+
+The script refuses to run unless the domain is exactly lab.local.
+It creates two OUs (Staff, Contractors), three groups, and five users.
+Every practice password is LabPractice1!
+
+Then try:
+
+Get-ADUser -Filter * | Format-Table Name, SamAccountName, Enabled
+Get-ADUser -Filter "Enabled -eq 'False'"
+Get-ADGroupMember Helpdesk

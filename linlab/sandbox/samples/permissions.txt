@@ -1,0 +1,18 @@
+Permissions in this window apply to files in /work only.
+
+See them
+  ls -l
+
+A script you can run
+  chmod +x ./hello.sh
+  ./hello.sh
+
+Read-only file
+  chmod 444 ./note.txt
+  cat ./note.txt
+
+Make it writable again
+  chmod 644 ./note.txt
+
+The owner inside this window is root. That is the container, not your Windows login.
+Changing permissions here does not change files outside /work.

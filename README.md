@@ -5,6 +5,8 @@ Public site for hiring managers: [https://johnwatkins35.github.io/my-portfolio/]
 ## On this site
 
 - **SysDesk** — simulated help desk lab (tickets, Active Directory, triage)
+- **PSLab** — throwaway PowerShell 7 sandbox in Docker
+- **LinLab** — throwaway Ubuntu Linux sandbox in Docker
 - **Flyber** — SQL / Python / Tableau analysis for a data-product course project
 - **Policy suite** — information-security writing sample for a fictional company
 

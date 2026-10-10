@@ -1,0 +1,29 @@
+Active Directory practice files. These are lists. Get-ADUser does not run in this window.
+
+A real sample domain is a separate setup on the Proxmox Windows VM.
+The script is C:\Users\johnw\Projects\pslab\ad-lab\New-SampleDomain.ps1
+Read C:\Users\johnw\Projects\pslab\ad-lab\SETUP.txt on this PC before you run it.
+
+Read the users:
+
+Import-Csv ./users.csv | Format-Table
+
+Disabled accounts:
+
+Import-Csv ./users.csv | Where-Object Enabled -eq 'False' | Format-Table
+
+IT department:
+
+Import-Csv ./users.csv | Where-Object Department -eq 'IT' | Format-Table
+
+Who is in Helpdesk:
+
+Import-Csv ./groups.csv | Where-Object Group -eq 'Helpdesk' | Format-Table
+
+Add a user to the table:
+
+@(Import-Csv ./users.csv) + [pscustomobject]@{Name='Alex Kim'; SamAccountName='akim'; Enabled='True'; OU='Staff'; Department='IT'} | Export-Csv ./users.csv -NoTypeInformation
+
+Read it again:
+
+Import-Csv ./users.csv | Format-Table

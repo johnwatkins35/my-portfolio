@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LinLab · John Watkins</title>
+  <meta name="description" content="LinLab is a throwaway Ubuntu Linux sandbox in Docker. Practice stays in one folder.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="index.html">John Watkins</a>
+      <ul>
+        <li><a href="index.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">Linux practice lab</p>
+      <h1>LinLab</h1>
+      <p class="lede">
+        The same idea as PSLab, for Linux. It opens an Ubuntu shell in
+        Docker. The container is deleted when you exit. The only folder on
+        the PC it can change is <code>work</code>. Packages installed with
+        apt disappear on exit. Files in the practice folder stay. This is a
+        practice box, not a production server.
+      </p>
+      <div class="actions">
+        <a class="btn" href="linlab/README.md">Read the setup</a>
+        <a class="btn btn-secondary" href="linlab/sandbox/samples/cheatsheet.txt">Command cheatsheet</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What is in the lab</h2>
+      <ul class="plain">
+        <li><a href="linlab/start_linlab.ps1">Launcher</a> that starts Docker if it is down, builds the image once, then opens the sandbox</li>
+        <li>Caps of 2 CPUs and 1 GB RAM, with no admin rights on the host</li>
+        <li>Sample files for services, accounts, a log, and a short shell script</li>
+        <li><a href="linlab/reset_work.ps1">Reset</a> that copies the practice folder aside, then restores the samples</li>
+        <li>Everyday tools already in the image: bash, grep, awk, nano, curl, and jq</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 John Watkins</p>
+  </footer>
+</body>
+</html>

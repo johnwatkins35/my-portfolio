@@ -1,0 +1,20 @@
+Little scripts. Each one is a file you run with ./filename.ps1
+
+The file hello.ps1 is already here. Try:
+
+./hello.ps1
+./hello.ps1 -name Universe
+
+Make another one on this PC, not inside the red error text.
+1. Open the folder C:\Users\johnw\Projects\pslab\work
+2. Copy hello.ps1 and rename the copy to goodbye.ps1
+3. Open goodbye.ps1 in Notepad and change Hello to Goodbye
+4. Save
+5. In this window run:
+
+./goodbye.ps1
+./goodbye.ps1 -name Universe
+
+You should see Goodbye, World! and then Goodbye, Universe!
+
+After you change a script in Notepad, run it again. You do not have to restart the sandbox.

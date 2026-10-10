@@ -1,0 +1,62 @@
+PSLab cheatsheet
+Open this anytime:  Get-Content ./cheatsheet.txt
+
+You are in /work. That folder on your PC is:
+C:\Users\johnw\Projects\pslab\work
+
+Leave the sandbox:  exit
+Clear the screen:   cls
+Last commands:      Get-History
+Bring the last one back: press the Up arrow
+
+Command cheatsheet, with what each command does
+  Get-Content ./command-cheatsheet.txt
+
+Little scripts like hello.ps1
+  Get-Content ./little-scripts.txt
+
+Tiny PowerShell Projects, start with exercise 1
+  Set-Location ./tiny/01_hello
+  Get-Content ./README.md
+
+Normal PowerShell commands that work here
+  Get-Content ./commands.txt
+
+Account practice files
+  Get-Content ./ad-practice.txt
+
+Make a table, add a row, read it back
+  Get-Content ./tables.txt
+
+Files here
+  services.csv     sample list of services
+  tables.txt       practice for building a table
+
+See files
+  Get-ChildItem
+
+Read the sample
+  Import-Csv ./services.csv
+
+Only the running ones
+  Import-Csv ./services.csv | Where-Object Status -eq Running
+
+Names only
+  Import-Csv ./services.csv | Where-Object Status -eq Running | Select-Object -ExpandProperty Name
+
+How many are running
+  Import-Csv ./services.csv | Where-Object Status -eq Running | Measure-Object
+
+Save a result into a new file
+  Import-Csv ./services.csv | Where-Object Status -eq Running | Export-Csv ./running.csv -NoTypeInformation
+
+Add your own project
+  Copy the files into C:\Users\johnw\Projects\pslab\work
+  Then run Get-ChildItem in this window
+
+Copy this folder without resetting
+  ./copy-work.ps1
+
+reset_work.cmd first copies this folder to:
+  C:\Users\johnw\Projects\pslab\work-copies
+Then it puts the sample files back. The tiny exercises stay.

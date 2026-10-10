@@ -1,0 +1,45 @@
+You can use normal Linux commands here: files, text, scripts, and packages.
+
+Where you are
+  pwd
+  ls
+  ls -la
+
+Read and write files
+  cat ./cheatsheet.txt
+  less ./app.log
+  echo hello > ./note.txt
+  echo second >> ./note.txt
+  cp ./note.txt ./note-copy.txt
+  mv ./note.txt ./renamed.txt
+  rm ./renamed.txt
+  mkdir ./practice
+  rm -r ./practice
+
+Search
+  grep ERROR ./app.log
+  grep -n INFO ./app.log
+  find . -name '*.csv'
+
+Text
+  cut -d, -f1 ./services.csv
+  awk -F, '$2 == "Running" { print $1 }' ./services.csv
+  sort ./users.csv
+  wc -l ./app.log
+
+Scripts
+  bash ./hello.sh
+  bash ./hello.sh Universe
+
+Packages, gone when you exit
+  apt update
+  apt install -y unzip
+  which unzip
+
+[91mThese manage the real computer, so do not practice them on this PC.[0m
+[91m  Shutdown, reboot, disk format, and partitioning[0m
+[91m  Changing Windows users, services, or the registry[0m
+[91m  Installing software on Windows from inside this window[0m
+
+[91mInside LinLab those host commands have nothing to change.[0m
+[91mA Linux server you can snapshot belongs on your Proxmox VM.[0m

@@ -1,0 +1,50 @@
+LinLab cheatsheet
+Open this anytime:  cat ./cheatsheet.txt
+
+You are in /work. That folder on your PC is:
+C:\Users\johnw\Projects\linlab\work
+
+Leave the sandbox:  exit
+Clear the screen:   clear
+Last commands:      history
+Bring the last one back: press the Up arrow
+
+Command list, with what each command does
+  cat ./commands.txt
+
+Little scripts like hello.sh
+  cat ./little-scripts.txt
+
+Permissions
+  cat ./permissions.txt
+
+Files here
+  services.csv     sample list of services
+  users.csv        sample accounts
+  app.log          sample log for grep
+
+See files
+  ls
+
+Read a file
+  cat ./services.csv
+
+Only the running ones
+  awk -F, '$2 == "Running" { print $1 }' ./services.csv
+
+Find a word in the log
+  grep ERROR ./app.log
+
+Save a result into a new file
+  awk -F, '$2 == "Running" { print $1 }' ./services.csv > ./running.txt
+
+Add your own project
+  Copy the files into C:\Users\johnw\Projects\linlab\work
+  Then run ls in this window
+
+Copy this folder without resetting
+  bash ./copy-work.sh
+
+reset_work.cmd first copies this folder to:
+  C:\Users\johnw\Projects\linlab\work-copies
+Then it puts the sample files back.

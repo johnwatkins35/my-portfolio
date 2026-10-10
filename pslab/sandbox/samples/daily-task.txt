@@ -1,0 +1,10 @@
+Day 1
+
+From PS /work, save every patient whose Complication is Yes into a new file.
+
+1. Import-Csv ./patient_outcomes.csv | Where-Object Complication -eq 'Yes' | Export-Csv ./practice/yes.csv -NoTypeInformation
+
+2. Import-Csv ./practice/yes.csv | Measure-Object
+
+Done when ./practice/yes.csv exists and Measure-Object shows a Count.
+Send a screenshot, or say "check day 1".

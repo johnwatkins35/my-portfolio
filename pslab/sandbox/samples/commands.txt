@@ -1,0 +1,38 @@
+You can use normal PowerShell here: commands, help, files, tables, scripts, and modules.
+
+Find a command
+  Get-Command
+  Get-Command *Csv*
+  Get-Help Get-ChildItem -Examples
+
+Files in /work
+  Get-ChildItem
+  Get-Content ./cheatsheet.txt
+  Set-Content ./note.txt 'hello'
+  Add-Content ./note.txt 'second line'
+  Copy-Item ./note.txt ./note-copy.txt
+  Remove-Item ./note.txt
+
+Tables
+  Get-Content ./tables.txt
+
+Data
+  Import-Csv ./services.csv | Format-Table
+  Import-Csv ./services.csv | ConvertTo-Json
+  Import-Csv ./services.csv | Where-Object Status -eq Running | Sort-Object Name
+  Import-Csv ./services.csv | Group-Object Status | Select-Object Name, Count
+
+Scripts
+  pwsh -File ./yourscript.ps1
+
+Modules, saved for the next time you open PSLab
+  Install-Module Pester -Scope CurrentUser -Force
+  Get-InstalledModule
+[91mThese talk to Windows, so they do not run in this sandbox:[0m
+[91m  Get-Service, Start-Service, Stop-Service[0m
+[91m  Get-LocalUser, Get-LocalGroup[0m
+[91m  Get-ADUser and other Active Directory commands[0m
+[91m  Registry, Task Scheduler, Event Viewer, Microsoft 365[0m
+
+[91mPractice those on your Proxmox Windows VM.[0m
+

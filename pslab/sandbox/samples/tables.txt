@@ -1,0 +1,34 @@
+Make a table, add a row, then read it.
+
+The table is a file named tickets.csv. You create it.
+
+1. Make the table with two rows. Paste this as one line:
+
+[pscustomobject]@{Name='App'; Status='Running'; Owner='Jane'}, [pscustomobject]@{Name='Web'; Status='Running'; Owner='Omar'} | Export-Csv ./tickets.csv -NoTypeInformation
+
+2. Read it:
+
+Import-Csv ./tickets.csv | Format-Table
+
+You should see App and Web.
+
+3. Add a row:
+
+@(Import-Csv ./tickets.csv) + [pscustomobject]@{Name='Backup'; Status='Stopped'; Owner='Priya'} | Export-Csv ./tickets.csv -NoTypeInformation
+
+4. Read it again:
+
+Import-Csv ./tickets.csv | Format-Table
+
+You should see App, Web, and Backup.
+
+5. Change Backup from Stopped to Running:
+
+$rows = Import-Csv ./tickets.csv
+($rows | Where-Object Name -eq 'Backup').Status = 'Running'
+$rows | Export-Csv ./tickets.csv -NoTypeInformation
+Import-Csv ./tickets.csv | Format-Table
+
+6. Read only the running rows:
+
+Import-Csv ./tickets.csv | Where-Object Status -eq 'Running' | Format-Table

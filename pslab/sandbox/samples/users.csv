@@ -1,0 +1,6 @@
+Name,SamAccountName,Enabled,OU,Department
+Jane Lee,jlee,True,Staff,IT
+Omar Shah,oshah,True,Staff,Facilities
+Priya Nair,pnair,False,Staff,IT
+Chris Hale,chale,True,Contractors,Helpdesk
+Riley Chen,rchen,False,Contractors,Helpdesk
