@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueryLab · John Watkins</title>
+  <meta name="description" content="QueryLab turns a plain-language question into a read-only SQLite query against a CSV or database on this PC.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="index.html">John Watkins</a>
+      <ul>
+        <li><a href="index.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">Local · Python · Ollama</p>
+      <h1>QueryLab</h1>
+      <p class="lede">
+        A question box for a CSV or SQLite file on this PC. You ask in plain
+        language. QueryLab writes one SELECT, runs it, and shows the rows.
+        Ollama on this PC writes the SQL. The working copy sits in the
+        querylab data folder.
+      </p>
+      <div class="actions">
+        <a class="btn" href="querylab/README.md">Read the setup</a>
+        <a class="btn btn-secondary" href="querylab/start_querylab.cmd">Launcher</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>How to run it</h2>
+      <ul class="plain">
+        <li>Double-click <a href="querylab/start_querylab.cmd"><code>querylab/start_querylab.cmd</code></a>. The browser opens at <code>http://127.0.0.1:8765/</code>.</li>
+        <li>Load the sample help-desk tables, or upload your own CSV or SQLite file. Several CSVs become several tables.</li>
+        <li>Ask a question, read the SQL, edit it if you want, and press Run SQL.</li>
+        <li>Plain-language questions use a model already installed in Ollama. The app picks <code>llama3</code> when it is installed. Run SQL works with Ollama closed.</li>
+        <li>Write the finding yourself. The checklist asks for the number, the group, and which rows were included. Save keeps the draft in the data folder.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Write-up practice</h2>
+      <p class="lede">The page fills the question and the SQL. The finding, the reading of the rows, the caveat, and the one-liner stay blank until you write them. Download saves a markdown file. The data folder is on this PC and is not part of the published source.</p>
+    </section>
+
+    <section class="section">
+      <h2>What you can load</h2>
+      <ul class="plain">
+        <li>CSV or TSV. Each file is one table. Excel needs Save As, CSV, first.</li>
+        <li>A SQLite file (<code>.db</code>, <code>.sqlite</code>, <code>.sqlite3</code>). QueryLab copies it and queries the copy.</li>
+        <li>The sample: fictional campus tickets, plus the team for each technician.</li>
+      </ul>
+      <p class="lede">Each question runs as one read-only SELECT. The result shows at most 500 rows.</p>
+    </section>
+
+    <section class="section">
+      <h2>Sample checks</h2>
+      <ul class="plain">
+        <li>How many open tickets are there for each priority?</li>
+        <li>Which team has the most open tickets?</li>
+        <li>What is the average minutes to resolve a closed ticket, by site?</li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 John Watkins</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,172 @@
+:root {
+  --bg: #0b1220;
+  --panel: #121a2b;
+  --panel-2: #182338;
+  --line: #2a3a55;
+  --text: #e8eef8;
+  --muted: #9aa8c0;
+  --cyan: #5eead4;
+  --gold: #e8c547;
+  --danger: #f0b4b4;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+}
+
+.app {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  min-height: 100vh;
+}
+
+aside, main { padding: 1.25rem 1.4rem 2rem; }
+aside {
+  background: #080d18;
+  border-right: 1px solid var(--line);
+}
+main { max-width: 980px; }
+
+h1, h2 { margin: 0 0 0.6rem; line-height: 1.2; }
+h1 { font-size: 1.7rem; }
+h2 { font-size: 1rem; margin-top: 1.2rem; }
+
+label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0.8rem 0 0.3rem;
+}
+
+.kicker {
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.72rem;
+  font-weight: 700;
+  margin: 0 0 0.35rem;
+}
+
+.quiet { color: var(--muted); font-size: 0.9rem; }
+.bad { color: var(--danger); }
+
+textarea, select, button, .drop {
+  font: inherit;
+}
+
+textarea, select {
+  width: 100%;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+}
+
+textarea { resize: vertical; }
+
+#sql { font-family: Consolas, "Courier New", monospace; font-size: 0.92rem; }
+
+button {
+  background: var(--cyan);
+  color: #042f2e;
+  border: 0;
+  border-radius: 10px;
+  font-weight: 700;
+  padding: 0.6rem 0.9rem;
+  cursor: pointer;
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--line);
+}
+
+button:disabled { opacity: 0.55; cursor: wait; }
+
+.buttons, .suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+.suggestions button {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--line);
+  font-weight: 600;
+}
+
+.drop {
+  margin-top: 1rem;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  padding: 0.9rem;
+  display: grid;
+  gap: 0.35rem;
+  cursor: pointer;
+}
+
+.drop.hot { border-color: var(--cyan); }
+.drop input { margin-top: 0.4rem; color: var(--muted); }
+
+.table-card, .saved-item, .writeup, #answer {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.75rem 0.85rem;
+  margin-top: 0.7rem;
+}
+
+.table-card h3, .saved-item button {
+  margin: 0;
+  background: none;
+  color: var(--cyan);
+  border: 0;
+  padding: 0;
+  font-weight: 700;
+}
+
+.table-card ul, .checks {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.checks li.ok { color: var(--cyan); }
+
+.status { min-height: 1.4rem; color: var(--gold); }
+.status.bad { color: var(--danger); }
+
+.table-wrap {
+  overflow: auto;
+  max-height: 420px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; }
+th, td {
+  padding: 0.45rem 0.7rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  white-space: nowrap;
+}
+th { position: sticky; top: 0; background: var(--panel-2); }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.writeup { margin-top: 1.4rem; }
+
+@media (max-width: 860px) {
+  .app { grid-template-columns: 1fr; }
+  aside { border-right: 0; border-bottom: 1px solid var(--line); }
+}

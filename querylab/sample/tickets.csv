@@ -1,0 +1,19 @@
+id,opened,priority,category,status,site,technician,minutes_to_resolve
+1001,2026-10-01,High,Account lock,Open,Anchorage,R. Bennett,
+1002,2026-10-01,High,VPN,Open,Fairbanks,S. Alvarez,
+1003,2026-10-02,High,Account lock,Closed,Anchorage,R. Bennett,42
+1004,2026-10-02,Medium,Password reset,Open,Juneau,L. Nguyen,
+1005,2026-10-03,Medium,Mailbox,Closed,Juneau,L. Nguyen,27
+1006,2026-10-03,Low,Printer,Open,Anchorage,M. Cole,
+1007,2026-10-04,Medium,Password reset,Closed,Anchorage,R. Bennett,15
+1008,2026-10-04,Low,Printer,Closed,Fairbanks,S. Alvarez,22
+1009,2026-10-06,High,VPN,Closed,Fairbanks,S. Alvarez,55
+1010,2026-10-06,Medium,Mailbox,Open,Anchorage,L. Nguyen,
+1011,2026-10-07,Low,Printer,Closed,Anchorage,M. Cole,19
+1012,2026-10-07,High,Account lock,Closed,Juneau,L. Nguyen,31
+1013,2026-10-08,Medium,Password reset,Closed,Fairbanks,S. Alvarez,18
+1014,2026-10-08,Low,Mailbox,Closed,Juneau,L. Nguyen,24
+1015,2026-10-09,High,VPN,Open,Anchorage,R. Bennett,
+1016,2026-10-09,Medium,Printer,Closed,Anchorage,M. Cole,12
+1017,2026-10-10,Low,Password reset,Closed,Juneau,L. Nguyen,16
+1018,2026-10-10,High,Account lock,Closed,Fairbanks,S. Alvarez,48

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QueryLab</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+  <div class="app">
+    <aside>
+      <p class="kicker">On this PC</p>
+      <h1>QueryLab</h1>
+      <p class="quiet" id="ollama-status">Checking Ollama…</p>
+      <label for="model">Model</label>
+      <select id="model"></select>
+      <p class="quiet">Plain-language questions use Ollama on this PC. The file stays in the querylab data folder.</p>
+      <label id="drop" class="drop">
+        <strong>Drop a CSV or SQLite file</strong>
+        <span class="quiet">Several CSVs become several tables. A SQLite file is copied, then queried.</span>
+        <input id="file" type="file" multiple accept=".csv,.tsv,.sqlite,.db,.sqlite3,.db3">
+      </label>
+      <div class="buttons">
+        <button type="button" id="sample">Load sample</button>
+        <button type="button" id="clear" class="ghost">Clear</button>
+      </div>
+      <p class="quiet" id="source">No file loaded.</p>
+      <div id="schema"></div>
+      <h2>Saved write-ups</h2>
+      <div id="saved"></div>
+    </aside>
+    <main>
+      <form id="ask-form">
+        <label for="question">Question</label>
+        <textarea id="question" rows="3" placeholder="How many open tickets are there for each priority?"></textarea>
+        <div class="buttons">
+          <button type="submit" id="ask">Ask</button>
+          <button type="button" id="run" class="ghost">Run SQL</button>
+        </div>
+        <div id="suggestions" class="suggestions"></div>
+      </form>
+      <p id="status" class="status" role="status"></p>
+      <section id="answer" hidden>
+        <h2>SQL</h2>
+        <p id="explanation" class="quiet"></p>
+        <textarea id="sql" rows="8" spellcheck="false"></textarea>
+        <div class="buttons">
+          <button type="button" id="copy" class="ghost">Copy SQL</button>
+        </div>
+        <h2>Results</h2>
+        <p id="result-meta" class="quiet"></p>
+        <div id="results"></div>
+      </section>
+      <section class="writeup" id="writeup">
+        <h2>Write-up practice</h2>
+        <p class="quiet">The question and the SQL stay filled in. You write the finding. A finished finding names the number, the group, and which rows were included.</p>
+        <label for="finding">Finding</label>
+        <textarea id="finding" rows="4" placeholder="High has 3 open tickets, Medium has 2, and Low has 1. These counts are the Open rows only."></textarea>
+        <label for="reading">How I read the rows</label>
+        <textarea id="reading" rows="3" placeholder="I grouped the Open tickets by priority and counted each group."></textarea>
+        <label for="caveat">Caveat</label>
+        <textarea id="caveat" rows="2" placeholder="Closed tickets are left out of this count."></textarea>
+        <label for="oneliner">One-liner</label>
+        <textarea id="oneliner" rows="2" placeholder="Three of the six open tickets are High."></textarea>
+        <ul id="checks" class="checks"></ul>
+        <div class="buttons">
+          <button type="button" id="save-writeup">Save write-up</button>
+          <button type="button" id="download-writeup" class="ghost">Download markdown</button>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="/app.js"></script>
+</body>
+</html>
