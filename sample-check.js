@@ -52,12 +52,6 @@
   }
 
   var projects = {
-    pslab: {
-      sample: "Get-Content ./practice/note.txt",
-      answer: function (text) {
-        return "Answer: " + text.trim() + " prints the text in that file. The sandbox can change only the work folder. The container is deleted on exit.";
-      }
-    },
     linlab: {
       sample: "grep -n error ./app.log",
       answer: function (text) {
