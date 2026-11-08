@@ -43,10 +43,23 @@
       </ul>
       <p class="lede">GitHub renders the Markdown. On the live site, the same files open as text.</p>
     </section>
+
+    <section class="section sample-check" data-sample="policies">
+      <h2>Sample</h2>
+      <p class="lede">A short incident note. Open the answer to see which policies apply. A .txt file can replace the sample. It stays in this browser.</p>
+      <div class="lab-controls">
+        <input type="file" data-upload accept=".txt,.md">
+        <button class="primary" type="button" data-show-answer>Show the answer</button>
+      </div>
+      <p class="lede" data-file-status>Showing the included sample.</p>
+      <pre class="sql" data-preview></pre>
+      <pre class="sql sample-answer" data-answer hidden></pre>
+    </section>
   </main>
 
   <footer>
     <p>&copy; 2026 John Watkins</p>
   </footer>
+  <script src="sample-check.js"></script>
 </body>
 </html>
