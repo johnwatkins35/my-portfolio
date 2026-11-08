@@ -52,14 +52,6 @@
   }
 
   var projects = {
-    linlab: {
-      sample: "grep -n error ./app.log",
-      answer: function (text) {
-        var errors = text.split(/\r?\n/).filter(function (line) { return /error/i.test(line); }).length;
-        var count = errors ? " This file has " + errors + " line(s) containing error." : "";
-        return "Answer: grep -n prints each matching line with its line number. The container is deleted on exit. Files in the work folder stay." + count;
-      }
-    },
     flyber: {
       sample: "date,total_event\n2019-09-11,790329\n2019-10-11,12788264",
       answer: flyberAnswer
@@ -71,18 +63,6 @@
     workforce: {
       sample: "Department,Employees Needing Reskilling\nProduct Engineering,380\nData Science and AI,75\nProduct Management,54\nCustomer Success,210\nSales,173\nMarketing,34\nFinance,27\nHR and People Ops,27\nLegal and Compliance,11\nIT and Infrastructure,18\nG&A / Operations,11\nAcquired: TeamSync,82\nAcquired: DataBridge,86\nAcquired: CloudOps,33\nCOMPANY TOTAL,1221",
       answer: workforceAnswer
-    },
-    policies: {
-      sample: "A laptop holding rider names and phone numbers was left in a rideshare after a shift.",
-      answer: function () {
-        return "Answer: rider names and phone numbers are confidential under POL-SEC-004. Open the incident under POL-SEC-002. This is a writing sample for a fictional company, not a live incident and not an ISSO-of-record claim.";
-      }
-    },
-    pm: {
-      sample: "The hardware vendor will miss the ship date. The finish date and the budget cap are fixed.",
-      answer: function () {
-        return "Answer: scope can flex. Success is still at least one unit in service on the finish date. Keep one predecessor chain. Leave signed hardware and labor in place, hold 10 percent of the cap as contingency, and put the rest in software. Expedite the first unit. Do not add budget, move the date, or approve nights.";
-      }
     }
   };
 
