@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Flyber analysis · John Watkins</title>
-  <meta name="description" content="Flyber launch analysis: PostgreSQL, Python, and Tableau Public.">
+  <title>Flyber Projects · John Watkins</title>
+  <meta name="description" content="Flyber Projects: the original launch analysis, with later pieces on the same dataset added underneath.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -22,7 +22,16 @@
   <main>
     <section class="hero">
       <p class="kicker">Data product coursework</p>
-      <h1>Flyber MVP launch analysis</h1>
+      <h1>Flyber Projects</h1>
+      <p class="lede">
+        The Manhattan launch analysis is first. A later course project on
+        the event logs is listed underneath.
+      </p>
+    </section>
+
+    <section class="section">
+      <p class="kicker">Main project</p>
+      <h2>Flyber MVP launch analysis</h2>
       <p class="lede">
         Course project for a fictional eVTOL air-taxi launch in Manhattan.
         I loaded NYC taxi rides and a 500-person survey into local Docker
@@ -34,16 +43,27 @@
         <a class="btn" href="https://public.tableau.com/app/profile/john.watkins7081/viz/Flyber_Launch_Strategy/Doyoucurrentlyusetaxis">Open Tableau workbook</a>
         <a class="btn btn-secondary" href="flyber/flyber_queries.sql">Sample SQL</a>
       </div>
-    </section>
-
-    <section class="section">
-      <h2>What is in the lab</h2>
+      <h3>What is in the lab</h3>
       <ul class="plain">
         <li>Local PostgreSQL on Docker (port 5433) with taxi rides and survey tables</li>
         <li>SQL for volume, time-of-day, passenger counts, willingness to pay, and zip-level interest</li>
         <li>Python (pandas, matplotlib) charts for the midterm deck</li>
         <li>Tableau Public sheets for taxi use, rideshare, income, seasonality, and pickup/drop-off work</li>
       </ul>
+    </section>
+
+    <section class="section">
+      <p class="kicker">Later project</p>
+      <h2>Follow-on work</h2>
+      <p class="lede">Finished pieces are added here. This one uses the event logs, not the taxi and survey tables above.</p>
+      <div class="grid">
+        <article class="card project">
+          <p class="meta">Event logs · Tableau Public · Snowflake</p>
+          <h3>Scalable data strategy</h3>
+          <p>Daily event growth for a live flying-taxi app, a three-table model, and a cloud warehouse recommendation. Event logs grew 16.2 times in one month.</p>
+          <p><a href="flyber/data-strategy/index.html">Open the data strategy</a></p>
+        </article>
+      </div>
     </section>
   </main>
 

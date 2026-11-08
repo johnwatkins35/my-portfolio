@@ -160,6 +160,10 @@ h1 {
   margin-bottom: 0.4rem;
 }
 
+.section h3 {
+  margin-top: 1.5rem;
+}
+
 .meta {
   color: var(--gold);
   font-size: 0.85rem;
@@ -185,6 +189,41 @@ ul.plain {
   border-radius: 999px;
   padding: 0.35rem 0.75rem;
   font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.figure {
+  margin: 1.25rem 0 0;
+}
+
+.figure img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: #fff;
+}
+
+.figure figcaption {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-top: 0.4rem;
+}
+
+pre.sql {
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1rem 1.1rem;
+  overflow-x: auto;
+  color: var(--text);
+  font-size: 0.85rem;
+  line-height: 1.45;
+}
+
+.schema-col {
+  margin: 0;
+  padding-left: 1.1rem;
   color: var(--muted);
 }
 

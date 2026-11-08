@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Project Management Foundations Lab</title>
+  <style>
+    :root {
+      --bg: #f3f5f7;
+      --ink: #1c2430;
+      --muted: #4d5968;
+      --line: #d5dbe3;
+      --panel: #ffffff;
+      --navy: #1b365d;
+      --navy-ink: #ffffff;
+      --teal: #1f6f78;
+      --ok: #0f6b45;
+      --bad: #8a3b12;
+      --soft: #eef2f6;
+      --focus: #1b365d;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; }
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.45;
+    }
+    button, select, input { font: inherit; color: inherit; }
+    button { cursor: pointer; }
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+    header, .layout { max-width: 1120px; margin: 0 auto; }
+    header { padding: 28px 20px 8px; }
+    header h1 { margin: 0 0 6px; font-size: 1.6rem; letter-spacing: -0.02em; }
+    header p { margin: 0; color: var(--muted); max-width: 68ch; }
+    .kicker {
+      margin: 0 0 6px;
+      color: var(--teal);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+      gap: 20px;
+      padding: 16px 20px 40px;
+      align-items: start;
+    }
+    aside, .workspace, .email {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+    }
+    aside { padding: 14px; position: sticky; top: 12px; }
+    aside h2 { margin: 0 0 10px; font-size: 0.95rem; }
+    .task {
+      display: grid;
+      gap: 4px;
+      padding: 10px 0;
+      border-top: 1px solid var(--line);
+    }
+    .task-jump {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      font-weight: 600;
+    }
+    .flag { font-size: 0.82rem; color: var(--muted); }
+    .task[data-state="pass"] .flag { color: var(--ok); }
+    .task[data-state="fail"] .flag { color: var(--bad); }
+    details { font-size: 0.86rem; color: var(--muted); }
+    details p { margin: 6px 0 0; }
+    .score {
+      margin: 12px 0;
+      font-weight: 600;
+    }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn {
+      border: 1px solid var(--navy);
+      background: var(--navy);
+      color: var(--navy-ink);
+      border-radius: 6px;
+      padding: 8px 12px;
+    }
+    .btn.secondary {
+      background: var(--panel);
+      color: var(--navy);
+    }
+    .workspace { padding: 16px; display: grid; gap: 14px; }
+    .email { padding: 12px 14px; background: var(--soft); }
+    .email h2 { margin: 0 0 6px; font-size: 1rem; }
+    .meta { margin: 0 0 8px; color: var(--muted); font-size: 0.88rem; }
+    .email p { margin: 0 0 8px; }
+    .tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tabs button {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: 999px;
+      padding: 6px 12px;
+    }
+    .tabs button[aria-selected="true"] {
+      background: var(--navy);
+      color: var(--navy-ink);
+      border-color: var(--navy);
+    }
+    .panel { display: grid; gap: 12px; }
+    .panel[hidden],
+    .banner[hidden] { display: none; }
+    .panel h2 { margin: 0; font-size: 1.15rem; }
+    .lede { margin: 0; color: var(--muted); }
+    .fields {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+    label { display: grid; gap: 4px; font-size: 0.92rem; font-weight: 600; }
+    .sr {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+    input, select {
+      font-weight: 400;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px;
+      background: #fff;
+      width: 100%;
+    }
+    .span-2 { grid-column: 1 / -1; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td {
+      text-align: left;
+      padding: 8px 6px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: middle;
+    }
+    th { font-size: 0.82rem; color: var(--muted); font-weight: 600; }
+    .locked { color: var(--muted); }
+    .money { font-variant-numeric: tabular-nums; }
+    .readout {
+      margin: 0;
+      padding: 10px 12px;
+      background: var(--soft);
+      border-radius: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+    .readout.over { color: var(--bad); }
+    .gantt { display: grid; gap: 6px; }
+    .gantt-row {
+      display: grid;
+      grid-template-columns: 156px minmax(0, 1fr);
+      gap: 8px;
+      align-items: center;
+    }
+    .gantt-name { font-size: 0.82rem; }
+    .track {
+      height: 16px;
+      background: var(--soft);
+      border-radius: 4px;
+      position: relative;
+    }
+    .bar {
+      position: absolute;
+      top: 2px;
+      bottom: 2px;
+      background: var(--navy);
+      border-radius: 3px;
+      min-width: 4px;
+    }
+    .bar.critical { background: var(--teal); }
+    .note { margin: 0; color: var(--muted); font-size: 0.88rem; }
+    .feedback { margin: 0; }
+    .feedback ul { margin: 6px 0 0; padding-left: 18px; }
+    .feedback.pass { color: var(--ok); }
+    .feedback.fail { color: var(--bad); }
+    .banner {
+      margin-top: 12px;
+      padding: 12px 14px;
+      border: 1px solid var(--ok);
+      border-radius: 8px;
+      background: #f3faf6;
+    }
+    .banner h2 { margin: 0 0 4px; font-size: 1.05rem; color: var(--ok); }
+    .banner p { margin: 0; }
+    .foot {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+    }
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      aside { position: static; }
+      .fields { grid-template-columns: 1fr; }
+      .gantt-row { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { scroll-behavior: auto; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <p class="kicker">Practice lab</p>
+    <h1>Project Management Foundations</h1>
+    <p id="blurb">Planning, budgeting, risk management, and a leadership call. Build a plan the sponsor can approve.</p>
+  </header>
+  <div class="layout">
+    <aside>
+      <h2>Tasks</h2>
+      <ol>
+        <li class="task" id="task-charter" data-state="idle">
+          <button type="button" class="task-jump" data-tab="charter">1. Record the charter constraints</button>
+          <span class="flag">Not checked</span>
+          <details>
+            <summary>Hint</summary>
+            <p>The note names the sponsor, the finish date, and the cap. One sentence says which constraint may move, and what still counts as success.</p>
+          </details>
+        </li>
+        <li class="task" id="task-schedule" data-state="idle">
+          <button type="button" class="task-jump" data-tab="schedule">2. Sequence the baseline</button>
+          <span class="flag">Not checked</span>
+          <details>
+            <summary>Hint</summary>
+            <p>Sign-off is first. Each later task needs the one just before it. Go-live is last. Overlap belongs in the risk response, not the baseline.</p>
+          </details>
+        </li>
+        <li class="task" id="task-budget" data-state="idle">
+          <button type="button" class="task-jump" data-tab="budget">3. Balance the budget</button>
+          <span class="flag">Not checked</span>
+          <details>
+            <summary>Hint</summary>
+            <p>Contingency is 10 percent of the cap. Hardware and labor are already signed. Software receives whatever is left.</p>
+          </details>
+        </li>
+        <li class="task" id="task-risk" data-state="idle">
+          <button type="button" class="task-jump" data-tab="risk">4. Answer the vendor delay</button>
+          <span class="flag">Not checked</span>
+          <details>
+            <summary>Hint</summary>
+            <p>Accepting the delay misses a fixed date. The person who manages the vendor can expedite the first unit. A request to work nights does not change the cap or the date.</p>
+          </details>
+        </li>
+      </ol>
+      <p class="score" id="score" aria-live="polite">0 of 4 tasks complete</p>
+      <div class="actions">
+        <button type="submit" class="btn" form="lab">Submit plan</button>
+        <button type="button" class="btn secondary" id="reset">New project</button>
+      </div>
+      <div id="banner" class="banner" hidden>
+        <h2>Plan accepted</h2>
+        <p id="banner-text"></p>
+      </div>
+    </aside>
+    <div class="workspace">
+      <article class="email">
+        <h2>Note from the sponsor</h2>
+        <p class="meta" id="note-meta"></p>
+        <div id="note-body"></div>
+      </article>
+      <div class="tabs" role="tablist" aria-label="Project workspace">
+        <button type="button" role="tab" id="tab-charter" aria-controls="panel-charter" aria-selected="true">Charter</button>
+        <button type="button" role="tab" id="tab-schedule" aria-controls="panel-schedule" aria-selected="false">Schedule</button>
+        <button type="button" role="tab" id="tab-budget" aria-controls="panel-budget" aria-selected="false">Budget</button>
+        <button type="button" role="tab" id="tab-risk" aria-controls="panel-risk" aria-selected="false">Risk</button>
+      </div>
+      <form id="lab" autocomplete="off">
+        <section class="panel" id="panel-charter" role="tabpanel" aria-labelledby="tab-charter">
+          <h2>Charter</h2>
+          <p class="lede">Record what is fixed, what may flex, and the smallest outcome that still counts as success.</p>
+          <div class="fields">
+            <label>Sponsor
+              <select id="sponsor" name="sponsor">
+                <option value="">Choose</option>
+                <option value="priya">Priya Shah, VP Operations</option>
+                <option value="alex">Alex Morgan, Engineering</option>
+                <option value="jordan">Jordan Lee, Procurement</option>
+              </select>
+            </label>
+            <label>Finish date
+              <input id="finish" name="finish" type="date" />
+            </label>
+            <label>Budget cap (USD)
+              <input id="cap" name="cap" type="text" inputmode="numeric" />
+            </label>
+            <label>Constraint that may flex
+              <select id="flex" name="flex">
+                <option value="">Choose</option>
+                <option value="scope">Scope</option>
+                <option value="schedule">Schedule</option>
+                <option value="cost">Cost</option>
+              </select>
+            </label>
+            <label class="span-2">Minimum success
+              <select id="success" name="success">
+                <option value="">Choose</option>
+                <option value="one">At least one kiosk taking payments on the finish date</option>
+                <option value="three">Three kiosks taking payments on the finish date</option>
+                <option value="demo">A demo with no live payments</option>
+              </select>
+            </label>
+          </div>
+          <div class="actions">
+            <button type="button" class="btn" id="check-charter">Check charter</button>
+          </div>
+          <div class="feedback" id="fb-charter" role="status"></div>
+        </section>
+        <section class="panel" id="panel-schedule" role="tabpanel" aria-labelledby="tab-schedule" hidden>
+          <h2>Schedule</h2>
+          <p class="lede">Set the baseline as one sequence. A shorter bar chart means work is overlapped.</p>
+          <table>
+            <thead>
+              <tr>
+                <th>Task</th>
+                <th>Days</th>
+                <th>Predecessor</th>
+                <th>Window</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Sign charter</td>
+                <td class="money">2</td>
+                <td class="locked">None</td>
+                <td id="win-A" class="money"></td>
+              </tr>
+              <tr>
+                <td>Survey sites</td>
+                <td class="money">5</td>
+                <td>
+                  <label class="sr" for="pred-B">Predecessor for survey sites</label>
+                  <select id="pred-B" name="pred-B">
+                      <option value="">None</option>
+                      <option value="A">Sign charter</option>
+                      <option value="C">Install kiosks</option>
+                      <option value="D">Test payments</option>
+                      <option value="E">Go live</option>
+                    </select>
+                </td>
+                <td id="win-B" class="money"></td>
+              </tr>
+              <tr>
+                <td>Install kiosks</td>
+                <td class="money">8</td>
+                <td>
+                  <label class="sr" for="pred-C">Predecessor for install kiosks</label>
+                  <select id="pred-C" name="pred-C">
+                      <option value="">None</option>
+                      <option value="A">Sign charter</option>
+                      <option value="B">Survey sites</option>
+                      <option value="D">Test payments</option>
+                      <option value="E">Go live</option>
+                    </select>
+                </td>
+                <td id="win-C" class="money"></td>
+              </tr>
+              <tr>
+                <td>Test payments</td>
+                <td class="money">4</td>
+                <td>
+                  <label class="sr" for="pred-D">Predecessor for test payments</label>
+                  <select id="pred-D" name="pred-D">
+                      <option value="">None</option>
+                      <option value="A">Sign charter</option>
+                      <option value="B">Survey sites</option>
+                      <option value="C">Install kiosks</option>
+                      <option value="E">Go live</option>
+                    </select>
+                </td>
+                <td id="win-D" class="money"></td>
+              </tr>
+              <tr>
+                <td>Go live</td>
+                <td class="money">1</td>
+                <td>
+                  <label class="sr" for="pred-E">Predecessor for go live</label>
+                  <select id="pred-E" name="pred-E">
+                      <option value="">None</option>
+                      <option value="A">Sign charter</option>
+                      <option value="B">Survey sites</option>
+                      <option value="C">Install kiosks</option>
+                      <option value="D">Test payments</option>
+                    </select>
+                </td>
+                <td id="win-E" class="money"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="gantt" id="gantt" aria-label="Baseline bars"></div>
+          <p class="note" id="gantt-note"></p>
+          <div class="actions">
+            <button type="button" class="btn" id="check-schedule">Check schedule</button>
+          </div>
+          <div class="feedback" id="fb-schedule" role="status"></div>
+        </section>
+        <section class="panel" id="panel-budget" role="tabpanel" aria-labelledby="tab-budget" hidden>
+          <h2>Budget</h2>
+          <p class="lede">Signed costs stay put. Hold contingency, then assign the remainder.</p>
+          <table>
+            <thead>
+              <tr><th>Line</th><th>Amount (USD)</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hardware quote</td>
+                <td class="money locked" id="hardware-amt"></td>
+              </tr>
+              <tr>
+                <td>Labor contract</td>
+                <td class="money locked" id="labor-amt"></td>
+              </tr>
+              <tr>
+                <td>Software</td>
+                <td>
+                  <label class="sr" for="software">Software amount</label>
+                  <input id="software" name="software" type="text" inputmode="numeric" />
+                </td>
+              </tr>
+              <tr>
+                <td>Contingency</td>
+                <td>
+                  <label class="sr" for="contingency">Contingency amount</label>
+                  <input id="contingency" name="contingency" type="text" inputmode="numeric" />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <p class="readout" id="budget-readout">Enter software and contingency.</p>
+          <div class="actions">
+            <button type="button" class="btn" id="check-budget">Check budget</button>
+          </div>
+          <div class="feedback" id="fb-budget" role="status"></div>
+        </section>
+        <section class="panel" id="panel-risk" role="tabpanel" aria-labelledby="tab-risk" hidden>
+          <h2>Risk and the team note</h2>
+          <p class="lede" id="risk-lede"></p>
+          <div class="fields">
+            <label>Response strategy
+              <select id="strategy" name="strategy">
+                <option value="">Choose</option>
+                <option value="avoid">Avoid — cancel the vendor and stop the pilot</option>
+                <option value="mitigate">Mitigate — reduce the chance or the size of the delay</option>
+                <option value="transfer">Transfer — hand the delay to another contract</option>
+                <option value="accept">Accept — keep the plan and take the delay</option>
+              </select>
+            </label>
+            <label>Owner
+              <select id="owner" name="owner">
+                <option value="">Choose</option>
+                <option value="jordan">Jordan Lee, Procurement</option>
+                <option value="priya">Priya Shah, Sponsor</option>
+                <option value="alex">Alex Morgan, Engineering</option>
+              </select>
+            </label>
+            <label class="span-2">Response
+              <select id="response" name="response">
+                <option value="">Choose</option>
+                <option value="expedite">Expedite the first kiosk and start payment testing when it arrives</option>
+                <option value="wait">Wait for the full shipment, then test every kiosk together</option>
+                <option value="rebudget">Ask the sponsor for more budget so a second vendor can start</option>
+              </select>
+            </label>
+          </div>
+          <article class="email">
+            <h2 id="engineer-name"></h2>
+            <p id="engineer-ask">If the vendor is late, should we work nights until the whole shipment arrives?</p>
+          </article>
+          <label>Your reply
+            <select id="reply" name="reply">
+              <option value="">Choose</option>
+              <option value="nights">Approve nights and weekends until the shipment arrives</option>
+              <option value="scope">Date and budget stay fixed. Ask Alex for the smallest scope cut that still puts one kiosk in service on 12 June</option>
+              <option value="slip">Tell Priya the finish date has to move</option>
+            </select>
+          </label>
+          <div class="actions">
+            <button type="button" class="btn" id="check-risk">Check risk</button>
+          </div>
+          <div class="feedback" id="fb-risk" role="status"></div>
+        </section>
+      </form>
+      <p class="foot">Original practice scenario. It is not an official course item or exam question.</p>
+    </div>
+  </div>
+  <script>
+    const TASK_IDS = ["A", "B", "C", "D", "E"];
+    const EXPECTED = { A: "", B: "A", C: "B", D: "C", E: "D" };
+    const SEEN_KEY = "pm-foundations-seen";
+    const CURRENT_KEY = "pm-foundations-current";
+    const PROJECTS = [
+      {
+        id: "kiosk",
+        title: "Airport Kiosk Pilot",
+        date: "2026-06-12",
+        dateLabel: "12 June 2026",
+        deadline: "holiday travel",
+        cap: 48000,
+        hardware: 16200,
+        labor: 18000,
+        delayDays: 10,
+        unit: "kiosk",
+        unitPlural: "kiosks",
+        fullLabel: "Three",
+        successPhrase: "taking real payments",
+        demo: "A demo with no live payments",
+        testNoun: "payment testing",
+        sponsor: { name: "Priya Shah", role: "VP Operations" },
+        procurement: { name: "Jordan Lee", role: "Procurement" },
+        engineering: { name: "Alex Morgan", role: "Engineering" },
+        tasks: {
+          A: { name: "Sign charter", days: 2 },
+          B: { name: "Survey sites", days: 5 },
+          C: { name: "Install kiosks", days: 8 },
+          D: { name: "Test payments", days: 4 },
+          E: { name: "Go live", days: 1 }
+        }
+      },
+      {
+        id: "clinic",
+        title: "Clinic Check-in Pilot",
+        date: "2026-09-01",
+        dateLabel: "1 September 2026",
+        deadline: "flu season",
+        cap: 36000,
+        hardware: 12400,
+        labor: 14000,
+        delayDays: 8,
+        unit: "desk",
+        unitPlural: "desks",
+        fullLabel: "Three",
+        successPhrase: "checking in a real patient",
+        demo: "A walkthrough with no patient records",
+        testNoun: "check-in testing",
+        sponsor: { name: "Morgan Hale", role: "VP Clinical Operations" },
+        procurement: { name: "Sam Ortiz", role: "Procurement" },
+        engineering: { name: "Riley Chen", role: "Engineering" },
+        tasks: {
+          A: { name: "Sign charter", days: 2 },
+          B: { name: "Map the lobby", days: 4 },
+          C: { name: "Install desks", days: 6 },
+          D: { name: "Test check-in", days: 3 },
+          E: { name: "Go live", days: 1 }
+        }
+      },
+      {
+        id: "scanner",
+        title: "Warehouse Scanner Rollout",
+        date: "2026-04-15",
+        dateLabel: "15 April 2026",
+        deadline: "the spring inventory count",
+        cap: 54000,
+        hardware: 21000,
+        labor: 16500,
+        delayDays: 12,
+        unit: "scanner",
+        unitPlural: "scanners",
+        fullLabel: "Four",
+        successPhrase: "recording a real shipment",
+        demo: "A sample scan with no inventory update",
+        testNoun: "scan testing",
+        sponsor: { name: "Dana Okonkwo", role: "VP Logistics" },
+        procurement: { name: "Chris Patel", role: "Procurement" },
+        engineering: { name: "Quinn Alvarez", role: "Engineering" },
+        tasks: {
+          A: { name: "Sign charter", days: 3 },
+          B: { name: "Survey docks", days: 4 },
+          C: { name: "Mount scanners", days: 7 },
+          D: { name: "Test scans", days: 5 },
+          E: { name: "Go live", days: 2 }
+        }
+      },
+      {
+        id: "print",
+        title: "Campus Print Kiosk",
+        date: "2026-08-20",
+        dateLabel: "20 August 2026",
+        deadline: "the fall term",
+        cap: 27000,
+        hardware: 9800,
+        labor: 9000,
+        delayDays: 7,
+        unit: "kiosk",
+        unitPlural: "kiosks",
+        fullLabel: "Five",
+        successPhrase: "taking a paid print job",
+        demo: "A free test page with no payment",
+        testNoun: "print testing",
+        sponsor: { name: "Elena Vasquez", role: "VP Student Services" },
+        procurement: { name: "Noah Brooks", role: "Procurement" },
+        engineering: { name: "Avery Kim", role: "Engineering" },
+        tasks: {
+          A: { name: "Sign charter", days: 1 },
+          B: { name: "Survey halls", days: 3 },
+          C: { name: "Install kiosks", days: 5 },
+          D: { name: "Test print jobs", days: 3 },
+          E: { name: "Go live", days: 1 }
+        }
+      },
+      {
+        id: "harbor",
+        title: "Harbor Ticket Window",
+        date: "2026-05-28",
+        dateLabel: "28 May 2026",
+        deadline: "the summer season",
+        cap: 42000,
+        hardware: 15000,
+        labor: 12000,
+        delayDays: 9,
+        unit: "window",
+        unitPlural: "windows",
+        fullLabel: "Three",
+        successPhrase: "selling a real ticket",
+        demo: "A rehearsal with sample tickets",
+        testNoun: "ticket testing",
+        sponsor: { name: "Jordan Blake", role: "VP Guest Experience" },
+        procurement: { name: "Priya Nair", role: "Procurement" },
+        engineering: { name: "Casey Nguyen", role: "Engineering" },
+        tasks: {
+          A: { name: "Sign charter", days: 2 },
+          B: { name: "Survey gates", days: 6 },
+          C: { name: "Install windows", days: 9 },
+          D: { name: "Test tickets", days: 4 },
+          E: { name: "Go live", days: 1 }
+        }
+      },
+      {
+        id: "radio",
+        title: "Field Radio Upgrade",
+        date: "2026-11-06",
+        dateLabel: "6 November 2026",
+        deadline: "winter storms",
+        cap: 60000,
+        hardware: 24000,
+        labor: 18000,
+        delayDays: 14,
+        unit: "radio",
+        unitPlural: "radios",
+        fullLabel: "Six",
+        successPhrase: "carrying a live dispatch",
+        demo: "A bench test with no dispatch",
+        testNoun: "call testing",
+        sponsor: { name: "Taylor Singh", role: "VP Field Operations" },
+        procurement: { name: "Morgan Ellis", role: "Procurement" },
+        engineering: { name: "Drew Harper", role: "Engineering" },
+        tasks: {
+          A: { name: "Sign charter", days: 2 },
+          B: { name: "Survey sites", days: 5 },
+          C: { name: "Install radios", days: 10 },
+          D: { name: "Test calls", days: 4 },
+          E: { name: "Go live", days: 1 }
+        }
+      },
+      {
+        id: "library",
+        title: "Library Self-Checkout",
+        date: "2026-03-18",
+        dateLabel: "18 March 2026",
+        deadline: "spring break",
+        cap: 33000,
+        hardware: 11000,
+        labor: 12500,
+        delayDays: 6,
+        unit: "station",
+        unitPlural: "stations",
+        fullLabel: "Four",
+        successPhrase: "checking out a real item",
+        demo: "A training mode with no catalog update",
+        testNoun: "checkout testing",
+        sponsor: { name: "Robin Clarke", role: "VP Library Services" },
+        procurement: { name: "Jamie Fox", role: "Procurement" },
+        engineering: { name: "Skyler Adams", role: "Engineering" },
+        tasks: {
+          A: { name: "Sign charter", days: 2 },
+          B: { name: "Survey branches", days: 4 },
+          C: { name: "Install stations", days: 6 },
+          D: { name: "Test loans", days: 3 },
+          E: { name: "Go live", days: 1 }
+        }
+      },
+      {
+        id: "locker",
+        title: "Hotel Key Locker",
+        date: "2026-07-02",
+        dateLabel: "2 July 2026",
+        deadline: "the holiday weekend",
+        cap: 45000,
+        hardware: 17500,
+        labor: 15000,
+        delayDays: 11,
+        unit: "locker",
+        unitPlural: "lockers",
+        fullLabel: "Three",
+        successPhrase: "issuing a real room key",
+        demo: "A staff demo with a test code",
+        testNoun: "key testing",
+        sponsor: { name: "Harper Diaz", role: "VP Hotel Operations" },
+        procurement: { name: "Reese Morgan", role: "Procurement" },
+        engineering: { name: "Logan Park", role: "Engineering" },
+        tasks: {
+          A: { name: "Sign charter", days: 2 },
+          B: { name: "Survey lobbies", days: 5 },
+          C: { name: "Install lockers", days: 8 },
+          D: { name: "Test key codes", days: 3 },
+          E: { name: "Go live", days: 1 }
+        }
+      }
+    ];
+    let project = null;
+    let DAYS = {};
+    let NAMES = {};
+    const keys = ["charter", "schedule", "budget", "risk"];
+    const passed = { charter: false, schedule: false, budget: false, risk: false };
+
+    const $ = (id) => document.getElementById(id);
+
+    function money(n) {
+      return new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+        maximumFractionDigits: 0
+      }).format(n);
+    }
+
+    function plain(n) {
+      return new Intl.NumberFormat("en-US", { maximumFractionDigits: 0 }).format(n);
+    }
+
+    function num(value) {
+      const cleaned = String(value).replace(/[$,\s]/g, "");
+      if (cleaned === "") return null;
+      const n = Number(cleaned);
+      return Number.isFinite(n) ? n : null;
+    }
+
+    function firstName(person) {
+      return person.name.split(" ")[0];
+    }
+
+    function contingencyOf(item) {
+      return Math.round(item.cap * 0.1);
+    }
+
+    function softwareOf(item) {
+      return item.cap - item.hardware - item.labor - contingencyOf(item);
+    }
+
+    function readSeen() {
+      try {
+        const raw = JSON.parse(localStorage.getItem(SEEN_KEY) || "[]");
+        if (!Array.isArray(raw)) return [];
+        return raw.filter((id) => PROJECTS.some((item) => item.id === id));
+      } catch (error) {
+        return [];
+      }
+    }
+
+    function writeSeen(ids) {
+      try {
+        localStorage.setItem(SEEN_KEY, JSON.stringify(ids));
+      } catch (error) {
+        return;
+      }
+    }
+
+    function rememberCurrent(id) {
+      try {
+        sessionStorage.setItem(CURRENT_KEY, id);
+      } catch (error) {
+        return;
+      }
+    }
+
+    function pickProject(excludeId) {
+      let seen = readSeen();
+      let pool = PROJECTS.filter((item) => item.id !== excludeId && !seen.includes(item.id));
+      if (pool.length === 0) {
+        seen = excludeId ? [excludeId] : [];
+        writeSeen(seen);
+        pool = PROJECTS.filter((item) => item.id !== excludeId);
+      }
+      const choice = pool[Math.floor(Math.random() * pool.length)];
+      if (!seen.includes(choice.id)) {
+        seen.push(choice.id);
+        writeSeen(seen);
+      }
+      rememberCurrent(choice.id);
+      return choice;
+    }
+
+    function loadProject() {
+      try {
+        const savedId = sessionStorage.getItem(CURRENT_KEY);
+        const saved = PROJECTS.find((item) => item.id === savedId);
+        if (saved) return saved;
+      } catch (error) {
+        return pickProject(null);
+      }
+      return pickProject(null);
+    }
+
+    function setOptions(select, options) {
+      select.replaceChildren();
+      options.forEach((opt) => {
+        const el = document.createElement("option");
+        el.value = opt.value;
+        el.textContent = opt.label;
+        select.appendChild(el);
+      });
+    }
+
+    function noteParagraph(text) {
+      const p = document.createElement("p");
+      p.textContent = text;
+      return p;
+    }
+
+    function applyProject(next) {
+      project = next;
+      DAYS = {};
+      NAMES = {};
+      TASK_IDS.forEach((id) => {
+        DAYS[id] = next.tasks[id].days;
+        NAMES[id] = next.tasks[id].name;
+      });
+      const sponsor = next.sponsor;
+      const procurement = next.procurement;
+      const engineering = next.engineering;
+      $("blurb").textContent = "Planning, budgeting, risk management, and a leadership call. Build a plan the sponsor can approve for the " + next.title + ".";
+      $("note-meta").textContent = sponsor.name + ", " + sponsor.role + " · " + next.title;
+      $("note-body").replaceChildren(
+        noteParagraph("You are the project manager. I am the sponsor. We must be live before " + next.deadline + ". The finish date is " + next.dateLabel + ". The budget cap is " + money(next.cap) + ". Do not ask me to move either one."),
+        noteParagraph("If we have to trade something, I will accept fewer than " + next.fullLabel.toLowerCase() + " " + next.unitPlural + ". Success still means at least one " + next.unit + " " + next.successPhrase + " on " + next.dateLabel + "."),
+        noteParagraph("Hardware is quoted at " + money(next.hardware) + ". Labor is under contract at " + money(next.labor) + ". Finance wants 10 percent of the cap held as contingency. Put the rest in software."),
+        noteParagraph(procurement.name + " in procurement owns the vendor. " + engineering.name + " leads engineering.")
+      );
+      setOptions($("sponsor"), [
+        { value: "", label: "Choose" },
+        { value: "sponsor", label: sponsor.name + ", " + sponsor.role },
+        { value: "engineering", label: engineering.name + ", " + engineering.role },
+        { value: "procurement", label: procurement.name + ", " + procurement.role }
+      ]);
+      setOptions($("success"), [
+        { value: "", label: "Choose" },
+        { value: "minimum", label: "At least one " + next.unit + " " + next.successPhrase + " on the finish date" },
+        { value: "full", label: next.fullLabel + " " + next.unitPlural + " " + next.successPhrase + " on the finish date" },
+        { value: "demo", label: next.demo }
+      ]);
+      document.querySelectorAll("#panel-schedule tbody tr").forEach((row, index) => {
+        const id = TASK_IDS[index];
+        row.children[0].textContent = NAMES[id];
+        row.children[1].textContent = String(DAYS[id]);
+      });
+      ["B", "C", "D", "E"].forEach((id) => {
+        const label = document.querySelector('label[for="pred-' + id + '"]');
+        if (label) label.textContent = "Predecessor for " + NAMES[id].toLowerCase();
+        setOptions($("pred-" + id), [{ value: "", label: "None" }].concat(
+          TASK_IDS.filter((other) => other !== id).map((other) => ({
+            value: other,
+            label: NAMES[other]
+          }))
+        ));
+      });
+      $("hardware-amt").textContent = plain(next.hardware);
+      $("labor-amt").textContent = plain(next.labor);
+      $("risk-lede").textContent = firstName(procurement) + " reports the vendor may ship " + next.delayDays + " days late. A late full shipment misses " + next.dateLabel + ". You cannot add budget or move the date.";
+      setOptions($("owner"), [
+        { value: "", label: "Choose" },
+        { value: "procurement", label: procurement.name + ", Procurement" },
+        { value: "sponsor", label: sponsor.name + ", Sponsor" },
+        { value: "engineering", label: engineering.name + ", Engineering" }
+      ]);
+      setOptions($("response"), [
+        { value: "", label: "Choose" },
+        { value: "expedite", label: "Expedite the first " + next.unit + " and start " + next.testNoun + " when it arrives" },
+        { value: "wait", label: "Wait for the full shipment, then test every " + next.unit + " together" },
+        { value: "rebudget", label: "Ask the sponsor for more budget so a second vendor can start" }
+      ]);
+      $("engineer-name").textContent = engineering.name + ", Engineering";
+      setOptions($("reply"), [
+        { value: "", label: "Choose" },
+        { value: "nights", label: "Approve nights and weekends until the shipment arrives" },
+        { value: "scope", label: "Date and budget stay fixed. Ask " + firstName(engineering) + " for the smallest scope cut that still puts one " + next.unit + " in service on " + next.dateLabel },
+        { value: "slip", label: "Tell " + firstName(sponsor) + " the finish date has to move" }
+      ]);
+    }
+
+    function setTab(name) {
+      keys.forEach((key) => {
+        const on = key === name;
+        $("tab-" + key).setAttribute("aria-selected", on ? "true" : "false");
+        $("panel-" + key).hidden = !on;
+      });
+    }
+
+    function preds() {
+      return {
+        A: "",
+        B: $("pred-B").value,
+        C: $("pred-C").value,
+        D: $("pred-D").value,
+        E: $("pred-E").value
+      };
+    }
+
+    function analyze(links) {
+      const start = {};
+      let cycled = false;
+      const visiting = new Set();
+      const done = new Set();
+      function walk(id) {
+        if (cycled || done.has(id)) return;
+        if (visiting.has(id)) {
+          cycled = true;
+          return;
+        }
+        visiting.add(id);
+        const p = links[id];
+        if (p && Object.prototype.hasOwnProperty.call(DAYS, p)) walk(p);
+        if (cycled) return;
+        start[id] = p && start[p] != null ? start[p] + DAYS[p] : 0;
+        visiting.delete(id);
+        done.add(id);
+      }
+      Object.keys(DAYS).forEach(walk);
+      let horizon = 0;
+      if (!cycled) {
+        Object.keys(DAYS).forEach((id) => {
+          horizon = Math.max(horizon, start[id] + DAYS[id]);
+        });
+      }
+      return { start, cycled, horizon };
+    }
+
+    function drawSchedule() {
+      const plan = analyze(preds());
+      const gantt = $("gantt");
+      gantt.replaceChildren();
+      Object.keys(DAYS).forEach((id) => {
+        const row = document.createElement("div");
+        row.className = "gantt-row";
+        const name = document.createElement("div");
+        name.className = "gantt-name";
+        name.textContent = NAMES[id];
+        const track = document.createElement("div");
+        track.className = "track";
+        const win = $("win-" + id);
+        if (!plan.cycled) {
+          const bar = document.createElement("div");
+          bar.className = "bar";
+          const left = (plan.start[id] / plan.horizon) * 100;
+          const width = (DAYS[id] / plan.horizon) * 100;
+          bar.style.left = left + "%";
+          bar.style.width = width + "%";
+          track.appendChild(bar);
+          const open = plan.start[id] + 1;
+          const close = plan.start[id] + DAYS[id];
+          win.textContent = "Days " + open + "–" + close;
+        } else {
+          win.textContent = "—";
+        }
+        row.append(name, track);
+        gantt.appendChild(row);
+      });
+      const note = $("gantt-note");
+      if (plan.cycled) {
+        note.textContent = "These links loop, so the schedule has no start.";
+      } else {
+        note.textContent = "Baseline length: " + plan.horizon + " working days.";
+      }
+      return plan;
+    }
+
+    function drawBudget() {
+      const software = num($("software").value);
+      const contingency = num($("contingency").value);
+      const readout = $("budget-readout");
+      if (software == null || contingency == null) {
+        readout.classList.remove("over");
+        readout.textContent = "Enter software and contingency. Signed costs are " + money(project.hardware + project.labor) + ".";
+        return;
+      }
+      const total = project.hardware + project.labor + software + contingency;
+      const gap = project.cap - total;
+      readout.classList.toggle("over", gap < 0);
+      if (gap === 0) {
+        readout.textContent = "Total " + money(total) + ". That matches the cap.";
+      } else if (gap > 0) {
+        readout.textContent = "Total " + money(total) + ". " + money(gap) + " is still unassigned.";
+      } else {
+        readout.textContent = "Total " + money(total) + ". That is " + money(Math.abs(gap)) + " over the cap.";
+      }
+    }
+
+    function renderFeedback(key, errors, okText) {
+      const box = $("fb-" + key);
+      const task = $("task-" + key);
+      const flag = task.querySelector(".flag");
+      box.classList.remove("pass", "fail");
+      box.replaceChildren();
+      if (errors.length === 0) {
+        passed[key] = true;
+        task.dataset.state = "pass";
+        flag.textContent = "Complete";
+        box.classList.add("pass");
+        box.textContent = okText;
+      } else {
+        passed[key] = false;
+        task.dataset.state = "fail";
+        flag.textContent = "Needs work";
+        box.classList.add("fail");
+        const list = document.createElement("ul");
+        errors.forEach((text) => {
+          const item = document.createElement("li");
+          item.textContent = text;
+          list.appendChild(item);
+        });
+        box.appendChild(list);
+      }
+      updateScore();
+    }
+
+    function markDirty(key) {
+      passed[key] = false;
+      const task = $("task-" + key);
+      task.dataset.state = "idle";
+      task.querySelector(".flag").textContent = "Not checked";
+      const box = $("fb-" + key);
+      box.classList.remove("pass", "fail");
+      box.replaceChildren();
+      updateScore();
+    }
+
+    function updateScore() {
+      const count = keys.filter((key) => passed[key]).length;
+      $("score").textContent = count + " of 4 tasks complete";
+      const banner = $("banner");
+      if (count === 4) {
+        banner.hidden = false;
+        $("banner-text").textContent = "The baseline protects " + project.dateLabel + " and the " + money(project.cap) + " cap, holds 10 percent contingency, sequences the work, and answers the vendor delay without overtime or a new date.";
+      } else {
+        banner.hidden = true;
+        $("banner-text").textContent = "";
+      }
+    }
+
+    function gradeCharter() {
+      const errors = [];
+      if ($("sponsor").value !== "sponsor") errors.push("The sponsor in this note is " + project.sponsor.name + ".");
+      if ($("finish").value !== project.date) errors.push("The finish date in the note is " + project.dateLabel + ".");
+      if (num($("cap").value) !== project.cap) errors.push("The budget cap in the note is " + money(project.cap) + ".");
+      if ($("flex").value !== "scope") errors.push(firstName(project.sponsor) + " will move scope. The date and the cap stay fixed.");
+      if ($("success").value !== "minimum") errors.push("Minimum success is one " + project.unit + " " + project.successPhrase + " on the finish date.");
+      renderFeedback("charter", errors, "Charter recorded. Scope can flex. The date and the cap cannot.");
+    }
+
+    function gradeSchedule() {
+      const links = preds();
+      const plan = drawSchedule();
+      const errors = [];
+      if (plan.cycled) {
+        errors.push("The predecessor links loop. A task cannot come after itself.");
+      } else {
+        Object.keys(EXPECTED).forEach((id) => {
+          if (id !== "A" && links[id] !== EXPECTED[id]) {
+            errors.push(NAMES[id] + " should follow " + NAMES[EXPECTED[id]] + ".");
+          }
+        });
+      }
+      const bars = document.querySelectorAll(".bar");
+      if (errors.length === 0) bars.forEach((bar) => bar.classList.add("critical"));
+      const span = Object.values(DAYS).reduce((sum, days) => sum + days, 0);
+      renderFeedback("schedule", errors, "Baseline is one " + span + "-day chain. Every task is on the critical path.");
+    }
+
+    function gradeBudget() {
+      const software = num($("software").value);
+      const contingency = num($("contingency").value);
+      const errors = [];
+      const held = contingencyOf(project);
+      const rest = softwareOf(project);
+      if (contingency !== held) errors.push("Contingency is not 10 percent of the " + money(project.cap) + " cap.");
+      if (software !== rest) errors.push("Software is not what remains after hardware, labor, and contingency.");
+      if (software != null && contingency != null && project.hardware + project.labor + software + contingency !== project.cap) {
+        errors.push("The four lines must equal " + money(project.cap) + ".");
+      }
+      renderFeedback("budget", errors, "Budget balances at " + money(project.cap) + ", with " + money(held) + " held as contingency.");
+    }
+
+    function gradeRisk() {
+      const errors = [];
+      if ($("strategy").value !== "mitigate") errors.push("The date is fixed, so the delay has to be reduced, not accepted, avoided, or transferred.");
+      if ($("owner").value !== "procurement") errors.push("The owner should be the person who manages the vendor.");
+      if ($("response").value !== "expedite") errors.push("The response should move the first " + project.unit + " without a new cap or a new date.");
+      if ($("reply").value !== "scope") errors.push(firstName(project.engineering) + " asked about nights. Restate the fixed date and cap, and ask for a smaller scope that still puts one " + project.unit + " in service.");
+      renderFeedback("risk", errors, "Vendor delay is mitigated, and " + firstName(project.engineering) + " has a scope question instead of an overtime order.");
+    }
+
+    const graders = {
+      charter: gradeCharter,
+      schedule: gradeSchedule,
+      budget: gradeBudget,
+      risk: gradeRisk
+    };
+
+    $("check-charter").addEventListener("click", gradeCharter);
+    $("check-schedule").addEventListener("click", gradeSchedule);
+    $("check-budget").addEventListener("click", gradeBudget);
+    $("check-risk").addEventListener("click", gradeRisk);
+
+    ["sponsor", "finish", "cap", "flex", "success"].forEach((id) => {
+      $(id).addEventListener("input", () => markDirty("charter"));
+      $(id).addEventListener("change", () => markDirty("charter"));
+    });
+    ["pred-B", "pred-C", "pred-D", "pred-E"].forEach((id) => {
+      $(id).addEventListener("change", () => {
+        markDirty("schedule");
+        drawSchedule();
+      });
+    });
+    ["software", "contingency"].forEach((id) => {
+      $(id).addEventListener("input", () => {
+        markDirty("budget");
+        drawBudget();
+      });
+    });
+    ["strategy", "owner", "response", "reply"].forEach((id) => {
+      $(id).addEventListener("change", () => markDirty("risk"));
+    });
+
+    document.querySelectorAll(".task-jump").forEach((button) => {
+      button.addEventListener("click", () => setTab(button.dataset.tab));
+    });
+    document.querySelectorAll("[role='tab']").forEach((tab) => {
+      tab.addEventListener("click", () => setTab(tab.id.replace("tab-", "")));
+    });
+
+    $("lab").addEventListener("submit", (event) => {
+      event.preventDefault();
+      keys.forEach((key) => graders[key]());
+      const firstFail = keys.find((key) => !passed[key]);
+      if (firstFail) setTab(firstFail);
+    });
+
+    $("reset").addEventListener("click", () => {
+      if (!window.confirm("Start a new project? Your entries will be cleared.")) return;
+      applyProject(pickProject(project.id));
+      $("lab").reset();
+      keys.forEach((key) => {
+        passed[key] = false;
+        const task = $("task-" + key);
+        task.dataset.state = "idle";
+        task.querySelector(".flag").textContent = "Not checked";
+        const box = $("fb-" + key);
+        box.classList.remove("pass", "fail");
+        box.replaceChildren();
+      });
+      drawSchedule();
+      drawBudget();
+      setTab("charter");
+      updateScore();
+    });
+
+    applyProject(loadProject());
+    drawSchedule();
+    drawBudget();
+    setTab("charter");
+  </script>
+</body>
+</html>

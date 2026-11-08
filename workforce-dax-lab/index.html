@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workforce DAX lab · John Watkins</title>
+  <meta name="description" content="Practice lab for a Power BI reskilling measure. The measure leaves the company total row out so employees are not counted twice.">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    .lab-controls { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-top: 1rem; }
+    .lab-controls select, .lab-controls button { font: inherit; padding: 0.55rem 0.8rem; border-radius: 10px; }
+    .lab-controls select { background: var(--panel-2); color: var(--text); border: 1px solid var(--line); }
+    .lab-controls button { background: transparent; color: var(--text); border: 1px solid var(--line); cursor: pointer; }
+    .stat { font-size: 2.4rem; font-weight: 700; margin: 0.25rem 0; }
+    .stat.good { color: var(--cyan); }
+    .stat.warn { color: var(--gold); }
+    table.lab { width: 100%; border-collapse: collapse; }
+    table.lab th, table.lab td { text-align: left; padding: 0.45rem 0.5rem; border-bottom: 1px solid var(--line); }
+    table.lab tr.total { font-weight: 700; }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="../index.html">John Watkins</a>
+      <ul>
+        <li><a href="../index.html">Work</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">Power BI · DAX</p>
+      <h1>Workforce DAX lab</h1>
+      <p class="lede">NovaTech skills table from a course scenario. The measure counts employees who still need reskilling and leaves the company total row out.</p>
+      <div class="lab-controls">
+        <label for="department">Department filter</label>
+        <select id="department"></select>
+        <button id="toggle-total" type="button">Include the COMPANY TOTAL row</button>
+      </div>
+    </section>
+
+    <div class="grid">
+      <section class="card">
+        <p class="meta">Measure</p>
+        <p class="stat good" id="measure-value">1,221</p>
+        <p id="measure-note">Calculated for the current filter. The total row stays out.</p>
+      </section>
+      <section class="card">
+        <p class="meta">Sum that includes the stored total row</p>
+        <p class="stat warn" id="bad-value">1,221</p>
+        <p id="bad-note">This is the mistake the measure is written to avoid.</p>
+      </section>
+    </div>
+
+    <section class="section">
+      <table class="lab">
+        <thead>
+          <tr>
+            <th>Department</th>
+            <th>Total HC</th>
+            <th>Employees needing reskilling</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </section>
+
+    <section class="section">
+      <h2>Measure</h2>
+      <pre class="sql">Employees Needing Reskilling =
+CALCULATE (
+    SUM ( '4_Skills_Inventory'[Employees Needing Reskilling] ),
+    '4_Skills_Inventory'[Department] &lt;&gt; "COMPANY TOTAL"
+)</pre>
+      <p class="lede">A measure runs again for the filter on the page. The numbers in the table are already stored on each row. With no filter the measure is 1,221. Sales is 173. Adding the COMPANY TOTAL row counts those employees twice and shows 2,442.</p>
+      <p><a href="skills_inventory.csv">Skills table (CSV)</a> · <a href="measure.dax">measure.dax</a> · <a href="../workforce-dax.html">Write-up</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 John Watkins</p>
+  </footer>
+  <script>
+    const rows = [
+      ["Product Engineering", 1000, 380],
+      ["Data Science and AI", 300, 75],
+      ["Product Management", 180, 54],
+      ["Customer Success", 600, 210],
+      ["Sales", 540, 173],
+      ["Marketing", 170, 34],
+      ["Finance", 135, 27],
+      ["HR and People Ops", 90, 27],
+      ["Legal and Compliance", 56, 11],
+      ["IT and Infrastructure", 120, 18],
+      ["G&A / Operations", 70, 11],
+      ["Acquired: TeamSync", 160, 82],
+      ["Acquired: DataBridge", 160, 86],
+      ["Acquired: CloudOps", 85, 33],
+      ["COMPANY TOTAL", 3666, 1221]
+    ];
+    const select = document.querySelector("#department");
+    const tbody = document.querySelector("#rows");
+    const measureEl = document.querySelector("#measure-value");
+    const badEl = document.querySelector("#bad-value");
+    const measureNote = document.querySelector("#measure-note");
+    const badNote = document.querySelector("#bad-note");
+    const toggle = document.querySelector("#toggle-total");
+    let includeTotal = false;
+
+    function format(n) { return n.toLocaleString("en-US"); }
+    function selected() { return select.value; }
+    function visibleRows() {
+      return rows.filter(([department]) => {
+        if (department === "COMPANY TOTAL" && !includeTotal) return false;
+        if (selected() !== "All departments" && department !== selected()) return false;
+        return true;
+      });
+    }
+    function measureValue() {
+      return visibleRows()
+        .filter(([department]) => department !== "COMPANY TOTAL")
+        .reduce((sum, row) => sum + row[2], 0);
+    }
+    function render() {
+      tbody.replaceChildren();
+      for (const [department, headcount, needing] of visibleRows()) {
+        const tr = document.createElement("tr");
+        if (department === "COMPANY TOTAL") tr.className = "total";
+        tr.innerHTML = `<td>${department}</td><td>${format(headcount)}</td><td>${format(needing)}</td>`;
+        tbody.appendChild(tr);
+      }
+      const measure = measureValue();
+      const bad = visibleRows().reduce((sum, row) => sum + row[2], 0);
+      measureEl.textContent = format(measure);
+      badEl.textContent = format(bad);
+      const filterName = selected() === "All departments" ? "all departments" : selected();
+      measureNote.textContent = `Filter: ${filterName}. The measure adds the department rows only.`;
+      badNote.textContent = includeTotal && selected() === "All departments"
+        ? "1,221 + the stored total row 1,221 = 2,442."
+        : "Same rows, with the stored total row included when it is visible.";
+    }
+    select.append(new Option("All departments", "All departments"));
+    for (const [department] of rows) {
+      if (department !== "COMPANY TOTAL") select.append(new Option(department, department));
+    }
+    select.addEventListener("change", render);
+    toggle.addEventListener("click", () => {
+      includeTotal = !includeTotal;
+      toggle.textContent = includeTotal ? "Hide the COMPANY TOTAL row" : "Include the COMPANY TOTAL row";
+      render();
+    });
+    render();
+  </script>
+</body>
+</html>

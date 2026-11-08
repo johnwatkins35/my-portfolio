@@ -1,0 +1,5 @@
+Employees Needing Reskilling =
+CALCULATE (
+    SUM ( '4_Skills_Inventory'[Employees Needing Reskilling] ),
+    '4_Skills_Inventory'[Department] <> "COMPANY TOTAL"
+)

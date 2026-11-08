@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flyber data strategy · John Watkins</title>
+  <meta name="description" content="Data strategy for Flyber event logs: growth, a three-table model, and a cloud warehouse recommendation.">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="../../index.html">John Watkins</a>
+      <ul>
+        <li><a href="../../index.html">Work</a></li>
+        <li><a href="../../about.html">About</a></li>
+        <li><a href="../../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">Flyber · data product coursework</p>
+      <h1>Scalable data strategy</h1>
+      <p class="lede">
+        Flyber's app is live in New York, and the event pipelines cannot keep up.
+        This proposal sizes the feed from a month of event logs, splits it into
+        customers, events, and transactions, and recommends a cloud warehouse.
+        It is a course project for a fictional company, not a production system I administered.
+      </p>
+      <div class="actions">
+        <a class="btn" href="../../flyber.html">Back to Flyber Projects</a>
+        <a class="btn btn-secondary" href="Flyber-Event-Growth.twbx">Tableau workbook</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What the logs did</h2>
+      <p>
+        Engineering's month file runs from 11 September 2019 to 11 October 2019.
+        Total events grew from 790,329 to 12,788,264, which is 16.2 times.
+        The peak was 18,918,096 events on 4 October, during the first week of a marketing campaign.
+        On 11 October the log was still about 1.9 times the 30 September level.
+      </p>
+      <figure class="figure">
+        <img src="flyber-total-event-growth.png" alt="Line chart of total Flyber events per day from 11 September to 11 October 2019, marked at the start, the 4 October peak, and the end.">
+        <figcaption>Total events per day. The October campaign spikes the line and leaves a higher plateau.</figcaption>
+      </figure>
+      <ul class="plain">
+        <li>Open, the customer action, grew 15.2 times (556,714 to 8,438,774).</li>
+        <li>Request Car and Begin Ride together, the transactional events, grew about 12 times (31,601 to 378,980).</li>
+        <li>Choose Car was the fastest single event type, about 30.5 times (61,416 to 1,875,536).</li>
+      </ul>
+      <p>
+        Shopping grew faster than completed rides. Every tap is stored, so the full event log
+        outgrows the ride records. A one-week extract from early October is almost flat and is
+        too small to size the pipeline.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Same shape, five event types</h2>
+      <p>
+        Open, Search, Choose Car, Request Car, and Begin Ride all climb through late September,
+        jump in the first week of October, peak on 4 October, and ease to a higher plateau.
+        The shared shape means the surge is demand, not one broken screen.
+      </p>
+      <figure class="figure">
+        <img src="flyber-all-event-types.png" alt="Five line charts of Flyber event types per day on one linear scale.">
+        <figcaption>All five event types on a linear scale. Open dominates the count.</figcaption>
+      </figure>
+      <figure class="figure">
+        <img src="flyber-all-events-log-scale.png" alt="Five Flyber event types on a logarithmic scale, with the first week of October shaded.">
+        <figcaption>Log scale so Begin Ride is visible next to Open. October 1–7 is the campaign week.</figcaption>
+      </figure>
+      <p>
+        Separate sheets for Open and Begin Ride are in this folder:
+        <a href="flyber-open-events.png">Open</a> and
+        <a href="flyber-begin-ride.png">Begin Ride</a>.
+        The same four views are in the Tableau Public workbook
+        <a href="Flyber-Event-Growth.twbx">Flyber Event Growth</a>.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Who needs the data</h2>
+      <ul class="plain">
+        <li>Engineering, the primary consumer, because the app is already live and the pipelines are behind.</li>
+        <li>Operations, for rides that actually start.</li>
+        <li>Marketing, for the campaign's effect on browsing versus completed rides.</li>
+        <li>Finance, for the transaction events that correspond to a ride.</li>
+      </ul>
+      <p>
+        The cut that answers all three growth questions is events of each event type per day.
+        Open is customer activity. Request Car and Begin Ride are the transactions. The sum is the event log.
+      </p>
+      <h3>Three tables</h3>
+      <ul class="plain">
+        <li>Customers, keyed by customer id. No foreign key. First and last event time live on the customer.</li>
+        <li>Events, keyed by event id, with the user id as a foreign key. Time, event type, device, page, and neighborhood.</li>
+        <li>Transactions, keyed by transaction id, pointing at the event and the user. Only Request Car and Begin Ride. The log has no fare amount, so none was invented.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Where it should land</h2>
+      <p>
+        A person cannot recount 12.8 million events a day, or an 18.9 million event campaign peak, in a spreadsheet.
+        The recommendation is a cloud warehouse, Snowflake, with storage and compute separate.
+        Raw logs land in object storage and are transformed after load into the three tables.
+        The operational database stays in place for live booking.
+        An on-premises warehouse would ask a startup to buy a cluster before the next campaign.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 John Watkins · <a href="../../flyber.html">Flyber Projects</a></p>
+  </footer>
+</body>
+</html>

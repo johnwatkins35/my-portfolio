@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hotel operations · John Watkins</title>
+  <meta name="description" content="PostgreSQL cleaning and analysis for a hotel chain whose room-service ratings fell below 4.5. Practical project for the DataCamp SQL Associate certificate.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="index.html">John Watkins</a>
+      <ul>
+        <li><a href="index.html">Work</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <p class="kicker">PostgreSQL · SQL Associate</p>
+      <h1>Hotel operations</h1>
+      <p class="lede">
+        Practical project for the DataCamp SQL Associate certificate, finished
+        17 October 2026. LuxurStay’s room-service ratings had fallen below the
+        4.5 target. I cleaned the branch table, then measured response time
+        and ratings by hotel and service. This is querying on a provided
+        dataset, not production database administration.
+      </p>
+      <div class="actions">
+        <a class="btn" href="hotel-operations/queries.sql">Open the SQL</a>
+        <a class="btn btn-secondary" href="hotel-operations/README.md">Read the notes</a>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Tables</h2>
+      <p class="lede">Only requests that received a feedback rating are in the data. A request belongs to one service and one branch.</p>
+      <div class="grid">
+        <article class="card project">
+          <h3>service</h3>
+          <ul class="schema-col">
+            <li>id</li>
+            <li>description</li>
+          </ul>
+        </article>
+        <article class="card project">
+          <h3>request</h3>
+          <ul class="schema-col">
+            <li>id</li>
+            <li>service_id</li>
+            <li>branch_id</li>
+            <li>time_taken</li>
+            <li>request_time</li>
+            <li>rating</li>
+          </ul>
+        </article>
+        <article class="card project">
+          <h3>branch</h3>
+          <ul class="schema-col">
+            <li>id</li>
+            <li>location</li>
+            <li>total_rooms</li>
+            <li>staff_count</li>
+            <li>opening_date</li>
+            <li>target_guests</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>What the queries do</h2>
+      <ul class="plain">
+        <li>Replace invalid branch locations with Unknown, room counts outside 1–400 with 100, missing staff with 1.5 times the cleaned room count, bad opening years with 2023, and guest-type typos such as B. and Busniess with Business or Leisure.</li>
+        <li>Average and maximum minutes to answer a request, for each branch and service, rounded to two decimals.</li>
+        <li>List Meal and Laundry requests in EMEA and LATAM, using the original branch table.</li>
+        <li>Keep branch and service pairs whose average rating, rounded to two decimals, is under 4.5.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Clean the branch table</h2>
+      <pre class="sql">SELECT
+    id,
+    CASE
+        WHEN location IN ('EMEA', 'NA', 'LATAM', 'APAC') THEN location
+        ELSE 'Unknown'
+    END AS location,
+    CASE
+        WHEN total_rooms BETWEEN 1 AND 400 THEN total_rooms
+        ELSE 100
+    END AS total_rooms,
+    COALESCE(
+        staff_count,
+        1.5 * CASE
+            WHEN total_rooms BETWEEN 1 AND 400 THEN total_rooms
+            ELSE 100
+        END
+    ) AS staff_count,
+    CASE
+        WHEN opening_date BETWEEN '2000' AND '2023' THEN opening_date
+        ELSE '2023'
+    END AS opening_date,
+    CASE
+        WHEN TRIM(target_guests) ILIKE 'B%' THEN 'Business'
+        ELSE 'Leisure'
+    END AS target_guests
+FROM branch;</pre>
+    </section>
+
+    <section class="section">
+      <h2>Time, target hotels, and low ratings</h2>
+      <pre class="sql">SELECT
+    service_id,
+    branch_id,
+    ROUND(AVG(time_taken), 2) AS avg_time_taken,
+    ROUND(MAX(time_taken), 2) AS max_time_taken
+FROM request
+GROUP BY service_id, branch_id;</pre>
+      <pre class="sql">SELECT
+    s.description,
+    b.id AS branch_id,
+    b.location,
+    r.id AS request_id,
+    r.rating
+FROM request AS r
+JOIN branch AS b ON r.branch_id = b.id
+JOIN service AS s ON r.service_id = s.id
+WHERE s.description IN ('Meal', 'Laundry')
+  AND b.location IN ('EMEA', 'LATAM');</pre>
+      <pre class="sql">SELECT
+    service_id,
+    branch_id,
+    ROUND(AVG(rating), 2) AS avg_rating
+FROM request
+GROUP BY service_id, branch_id
+HAVING ROUND(AVG(rating), 2) &lt; 4.5;</pre>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 John Watkins</p>
+  </footer>
+</body>
+</html>
