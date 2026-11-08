@@ -52,15 +52,6 @@
   }
 
   var projects = {
-    sysdesk: {
-      sample: "INC-2401. Jordan Lee cannot sign in. SAM jlee. Host NW-WS-1042. Client Northwind. The account is locked.",
-      answer: function (text) {
-        if (/expired|priya|pnair/.test(text.toLowerCase())) {
-          return "Answer: confirm Priya Nair (pnair) on NW-WS-1180, reset the password in Directory, and read the temporary password in chat. Do not email it.";
-        }
-        return "Answer: confirm Jordan Lee (jlee) on NW-WS-1042, unlock jlee in Directory, and resolve. Do not escalate a simple lockout, and do not enable any other account.";
-      }
-    },
     pslab: {
       sample: "Get-Content ./practice/note.txt",
       answer: function (text) {
