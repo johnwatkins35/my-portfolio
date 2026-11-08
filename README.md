@@ -8,6 +8,7 @@ Public site for hiring managers: [https://johnwatkins35.github.io/my-portfolio/]
 - **PSLab** — throwaway PowerShell 7 sandbox in Docker
 - **LinLab** — throwaway Ubuntu Linux sandbox in Docker
 - **Flyber** — SQL / Python / Tableau analysis for a data-product course project
+- **Strategic workforce planning** — NovaTech dashboard, GlobalTech gap analysis, and MedTech three-year plan for the Microsoft specialization
 - **Policy suite** — information-security writing sample for a fictional company
 - **Project management foundations** — project management practice lab for charter, schedule, budget, and a vendor delay
 
