@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Unlock assistant · John Watkins</title>
+  <meta name="description" content="Writing sample: agent job description, value plan, and governance note for a fictional campus help desk.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header>
+    <nav>
+      <a class="brand" href="../index.html">John Watkins</a>
+      <ul>
+        <li><a href="../index.html">Work</a></li>
+        <li><a href="../write-ups.html" aria-current="page">Write-ups</a></li>
+        <li><a href="../about.html">About</a></li>
+        <li><a href="../contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="writeup">
+    <section class="hero">
+      <p class="kicker">Writing sample · November 2026</p>
+      <h1>Unlock assistant for the campus help desk</h1>
+      <p class="lede">
+        A job description, a value plan, and a governance note for an assistant
+        that drafts account-unlock work on a fictional campus desk. The person
+        on the desk still performs the unlock. This is a writing sample, tied
+        to the <a href="../sysdesk/index.html">SysDesk</a> lab. It is not a
+        production system and it is not from a government network.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>The work it supports</h2>
+      <p>
+        Lockouts and expired passwords are the repeatable tickets. The risky
+        ones look the same at first glance: a disabled contractor, two people
+        with the same name at different clients, or a lockout that is an
+        attack rather than a mistyped password. The assistant keeps the
+        ordinary path short and stops at the edge of those cases.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>Agent job description</h2>
+      <dl class="facts">
+        <dt>Name</dt>
+        <dd>Campus unlock assistant</dd>
+        <dt>Purpose</dt>
+        <dd>Turn a lockout or password-reset ticket into a checked draft the analyst can finish.</dd>
+        <dt>May do</dt>
+        <dd>Read the ticket. Check that the note will include the person&rsquo;s name, sign-in name, computer, and client. Draft the unlock or reset steps from the desk standard. Draft the ticket note.</dd>
+        <dt>Must hand back</dt>
+        <dd>The unlock or the password reset itself. A disabled account. A name that exists at more than one client. A lockout that does not look like a bad password. Anything that needs a domain administrator.</dd>
+        <dt>Done</dt>
+        <dd>The analyst has confirmed the right account, taken the action, and saved a note that names the account, the client, the action, and whether the lockout came from a bad password.</dd>
+      </dl>
+    </section>
+
+    <section class="section">
+      <h2>What the analyst still does</h2>
+      <ul class="plain">
+        <li>Confirm identity before any unlock. Name, sign-in name, computer, and client all have to match the ticket.</li>
+        <li>Unlock the account, or reset the password and require a change at next sign-in. Read a temporary password on the call. Do not email it.</li>
+        <li>Leave a disabled contractor locked until the staffing office says the person is back.</li>
+        <li>When security asks, paste the lockout event into the ticket before the unlock.</li>
+        <li>Escalate domain-controller problems, security incidents, and work that needs a domain administrator.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Value plan</h2>
+      <p>I would track four numbers on this desk. I am not claiming these results from a live queue.</p>
+      <ul class="plain">
+        <li>Minutes from claim to resolve on lockout and password-reset tickets.</li>
+        <li>Wrong-account unlocks. The target is zero.</li>
+        <li>Share of lockout tickets that include the lockout event when security asked for it.</li>
+        <li>Share of those tickets where the analyst started from the assistant&rsquo;s draft. That is the adoption number.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Governance</h2>
+      <ul class="plain">
+        <li>The ticket text is internal. The assistant does not need, and must not store, the new password.</li>
+        <li>A person remains the owner of the unlock. The assistant does not get an account that can change passwords.</li>
+        <li>Turn it off if wrong-account unlocks show up, or if analysts stop checking identity and file the draft as the note.</li>
+        <li>Review it when the desk standard changes, and retire it if the four numbers stop moving.</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <p><a href="../write-ups.html">Back to write-ups</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2026 John Watkins</p>
+  </footer>
+</body>
+</html>
